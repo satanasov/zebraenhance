@@ -15,10 +15,17 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3",
-		"phpbb/phpbb": "3.1.*@dev"
+		"php": ">=5.3"
 	},
 	"extra": {
-		"display-name": "phpBB 3.1 Zebra Enchance"
+		"display-name": "phpBB 3.1 Post Love",
+		"version-check": {
+			"host": "lab.anavaro.com",
+			"directory": "/phpbb-ext",
+			"filename": "zebraenhance.json"
+		},
+		"soft-require": {
+			"phpbb/phpbb": "3.1.*@dev"
+		}
 	}
 }
