@@ -7,13 +7,13 @@
 *
 */
 
-namespace anavaro\zebraenhance\migrations;
+namespace anavaro\zebraenhance\migrations\v10x;
 
 class release_1_0_1 extends \phpbb\db\migration\migration
 {
 	static public function depends_on()
 	{
-		return array('\anavaro\zebraenhance\migrations\release_1_0_0');
+		return array('\anavaro\zebraenhance\migrations\v10x\release_1_0_0');
 	}
 
 	//lets create the needed table	
