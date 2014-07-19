@@ -7,7 +7,7 @@
 *
 */
 
-namespace anavaro\zebraenhance\migrations\v10x;
+namespace anavaro\zebraenhance\migrations;
 
 class release_1_0_0 extends \phpbb\db\migration\migration
 {
@@ -15,11 +15,6 @@ class release_1_0_0 extends \phpbb\db\migration\migration
         {
                 return isset($this->config['zebra_enhance_version']) && version_compare($this->config['zebra_enhance_version'], '1.0.0', '>=');
         }
-	static public function depends_on()
-        {
-                return array('\phpbb\db\migration\data\v310\dev');
-        }
-		
 	public function update_data()
 	{
 		return array(
