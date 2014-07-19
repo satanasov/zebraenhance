@@ -1,0 +1,82 @@
+services:
+    anavaro.zebraenhance.listener:
+        class: anavaro\zebraenhance\event\zebra_listener
+        arguments:
+            - @user_loader
+            - @auth
+            - @cache
+            - @config
+            - @dbal.conn
+            - @request
+            - @template
+            - @user
+            - @controller.helper
+            - @anavaro.zebraenhance.notifyhelper
+            - %core.root_path%
+            - %core.php_ext%
+            - %core.table_prefix%
+        tags:
+            - { name: event.listener }
+    anavaro.zebraenhance.ajaxyfy:
+        class: anavaro\zebraenhance\controller\ajaxify
+        arguments:
+            - @auth
+            - @cache
+            - @config
+            - @dbal.conn
+            - @request
+            - @template
+            - @user
+            - @controller.helper
+            - %core.root_path%
+            - %core.php_ext%
+            - %core.table_prefix%
+    anavaro.zebraenhance.notifyhelper:
+        class: anavaro\zebraenhance\controller\notifyhelper
+        arguments:
+            - @config
+            - @dbal.conn
+            - @request
+            - @template
+            - @user
+            - @service_container
+            - %core.root_path%
+            - %core.php_ext%
+            - %core.table_prefix%
+    notification.type.zebraadd:
+        class: anavaro\zebraenhance\notification\zebraadd
+        scope: prototype # scope MUST be prototype for this to work!
+        arguments:
+            - @user_loader
+            - @dbal.conn
+            - @cache.driver
+            - @user
+            - @auth
+            - @config
+            - @controller.helper
+            - %core.root_path%
+            - %core.php_ext%
+            - %tables.notification_types%
+            - %tables.notifications%
+            - %tables.user_notifications%
+        tags:
+            - { name: notification.type }
+    
+    notification.type.zebraconfirm:
+        class: anavaro\zebraenhance\notification\zebraconfirm
+        scope: prototype # scope MUST be prototype for this to work!
+        arguments:
+            - @user_loader
+            - @dbal.conn
+            - @cache.driver
+            - @user
+            - @auth
+            - @config
+            - @controller.helper
+            - %core.root_path%
+            - %core.php_ext%
+            - %tables.notification_types%
+            - %tables.notifications%
+            - %tables.user_notifications%
+        tags:
+            - { name: notification.type }

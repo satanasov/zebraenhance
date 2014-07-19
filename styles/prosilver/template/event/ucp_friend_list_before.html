@@ -1,0 +1,40 @@
+<!-- IF HAS_PENDING -->
+<dl>
+	<dt><label>{L_UCP_ZEBRA_PENDING_IN}</label><br /><span>{L_UCP_ZEBRA_PENDING_IN_EXP}</span></dt>
+	<dd style="height: 100px; width: 250px; overflow: auto;">
+		<!-- BEGIN pending_requests -->
+				<span style="display: block;">{pending_requests.CONFIRM} {pending_requests.CANCEL} {pending_requests.USERNAME}</span>
+		<!-- END pending_requests -->
+	<dd>
+</dl>
+<!-- ENDIF -->
+<!-- IF HAS_WAITING -->
+<dl>
+	<dt><label>{L_UCP_ZEBRA_PENDING_OUT}</label><br /><span>{L_UCP_ZEBRA_PENDING_OUT_EXP}</span></dt>
+	<dd style="height: 100px; width: 250px; overflow: auto;">
+		<!-- BEGIN pending_awaits -->
+				<span style="display: block;">{pending_awaits.CANCEL} {pending_awaits.USERNAME}</span>
+		<!-- END pending_awaits -->
+	<dd>
+</dl>
+<!-- ENDIF -->
+<dl>
+	<dt><label <!-- IF S_USERNAME_OPTIONS -->for="usernames"<!-- ENDIF -->>{L_YOUR_FRIENDS}{L_COLON}</label><br /><span>{L_YOUR_FRIENDS_EXPLAIN}</span></dt>
+	<dd style="height: 200px; width: 250px; overflow: auto;">
+		<!-- BEGIN prity_zebra -->
+			<div style="display: block;"><div style="float: left;">{prity_zebra.BFF} {prity_zebra.USERNAME}</div><div style="float: right;"> {prity_zebra.CANCEL} </div> <div style="clear: both"></div></div>
+		<!-- END prity_zebra -->
+	</dd>
+</dl>
+<dl>
+	<dt><label>{L_ZE_FRIENDLIST}</label><br/><span>{L_ZE_FRIENDLIST_EXPLAIN}</span></dt>
+	<dd>
+		<select id="zebra_profile_acl" name="zebra_profile_acl">
+			<option value="0" <!-- IF ZEBRA_ACL == 0 -->SELECTED<!-- ENDIF -->>{L_NONE}</option>
+			<option value="1" <!-- IF ZEBRA_ACL == 1 -->SELECTED<!-- ENDIF -->>{L_NOT_ENEMY}</option>
+			<option value="2" <!-- IF ZEBRA_ACL == 2 -->SELECTED<!-- ENDIF -->>{L_ALL}</option>
+			<option value="3" <!-- IF ZEBRA_ACL == 3 -->SELECTED<!-- ENDIF -->>{L_FRIENDS}</option>
+			<option value="4" <!-- IF ZEBRA_ACL == 4 -->SELECTED<!-- ENDIF -->>{L_SPECIAL_FRIENDS}</option>
+		</select>
+	</dd>
+</dl>

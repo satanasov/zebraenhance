@@ -1,0 +1,32 @@
+<!-- IF IS_ZEBRA -->
+<script>
+(function($) {  // Avoid conflicts with other libraries
+
+"use strict";
+
+phpbb.addAjaxCallback('togle_bff', function(data) {
+	if (data.status == '0')
+	{
+		if (data.exit == 'add')
+		{
+			$('#usr_' + data.user_id).attr('src', '{IMGDIR}/favorite_remove.png');
+		}
+		else
+		{
+			$('#usr_' + data.user_id).attr('src', '{IMGDIR}/favorite_add.png');
+		}
+	}
+	else
+	{
+		alert('You dumb cheat!');
+	}
+});
+
+$('#zebra_profile_acl').change(function() {
+	$.post('app.php/zebraenhance/change_acl/' + $('#zebra_profile_acl').val(), function(data){
+	});
+});
+
+})(jQuery); // Avoid conflicts with other libraries
+</script>
+<!-- ENDIF -->

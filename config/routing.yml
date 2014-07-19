@@ -1,0 +1,5 @@
+zebra_enchacnce_ajax:
+    path: /zebraenhance/{action}/{userid}
+    defaults: { _controller: anavaro.zebraenhance.ajaxyfy:base }
+    requirements:
+        userid: \d+
