@@ -18,7 +18,7 @@
 		"php": ">=5.3"
 	},
 	"extra": {
-		"display-name": "phpBB 3.1 Post Love",
+		"display-name": "phpBB 3.1 Friendlist Enhance",
 		"version-check": {
 			"host": "lab.anavaro.com",
 			"directory": "/phpbb-ext",
