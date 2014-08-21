@@ -50,9 +50,8 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$this->assertContains('testuser', $crawler->filter('html')->text());
 		
 		$link = $crawler->filter('#ze_slef_req')->filter('span')->filter('a')->first()->link()->getUri();
-		$this->assertContains('test', $link);
 		
-		$crawler = self::request('GET', $link);
+		$crawler = self::request('GET', substr($link, strpos($link, 'ucp.')));
 		$this->assertContains($this->lang('CONFIRM_OPERATION'), $crawler->filter('html')->text());
 		
 		$form = $crawler->selectButton($this->lang('YES'))->form();
