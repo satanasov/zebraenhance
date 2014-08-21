@@ -56,5 +56,41 @@ class zebraenhance_requests_test extends zebraenhance_base
 		
 		$form = $crawler->selectButton($this->lang('YES'))->form();
 		$crawler = self::submit($form);
+		
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
+		$this->assertNotContains('testuser', $crawler->filter('html')->text());
+	}
+	public function test_user_request_cancel()
+	{
+		$this->login();
+		$this->add_lang('ucp');
+		
+		$crawler = self::request('GET', "ucp.php?i=zebra&add=testuser&sid={$this->sid}");
+		
+		$form = $crawler->selectButton($this->lang('YES'))->form();
+		$crawler = self::submit($form);
+		
+		$this->assertContains($this->lang('FRIENDS_UPDATED'), $crawler->filter('html')->text());
+		
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
+		$this->assertContains('testuser', $crawler->filter('html')->text());
+		
+		$this->logout();
+		
+		$this->login('testuser');
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
+		
+		$link = $crawler->filter('#ze_other_req')->filter('span')->filter('a')->eq(2)->link()->getUri();
+		
+		$crawler = self::request('GET', substr($link, strpos($link, 'ucp.')));
+		$this->assertContains($this->lang('CONFIRM_OPERATION'), $crawler->filter('html')->text());
+		$form = $crawler->selectButton($this->lang('YES'))->form();
+		$crawler = self::submit($form);
+		
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
+		
+		$this->add_lang_ext('acme/demo', 'common');
+		$this->assertNotContains($this->lang('L_YOUR_FRIENDS'), $crawler->filter('html')->text());
+		
 	}
 }
