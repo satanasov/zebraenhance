@@ -124,7 +124,7 @@ class zebra_listener implements EventSubscriberInterface
 						$sql = 'SELECT * FROM '. ZEBRA_TABLE .' WHERE user_id = ' . (int) $VAR['zebra_id'] . ' AND zebra_id = ' . (int) $VAR['user_id']. ' AND foe = 1';
 						$result = $this->db->sql_fetchrow($this->db->sql_query($sql));
 						if (!$result) {
-							$sql = 'INSERT INTO ' . $this->table_prefix . 'zebra_confirm (user_id, zebra_id, friend, foe, bff) VALUES (' .(int) $VAR['user_id'] . ', ' . (int) $VAR['zebra_id'] . ', 1, 0, 0)';
+							$sql = 'INSERT INTO ' . $this->table_prefix . 'zebra_confirm (user_id, zebra_id, friend, foe) VALUES (' .(int) $VAR['user_id'] . ', ' . (int) $VAR['zebra_id'] . ', 1, 0)';
 							$this->db->sql_query($sql);
 							$this->notifyhelper->notify('add', $VAR['zebra_id'], $VAR['user_id']);
 						}
