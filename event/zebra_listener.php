@@ -13,29 +13,20 @@
 namespace anavaro\zebraenhance\event;
 
 /**
-* @ignore
-*/
-
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
-/**
 * Event listener
 */
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class zebra_listener implements EventSubscriberInterface
-{	
+{
 	static public function getSubscribedEvents()
-    {
+	{
 		return array(
 			//'core.memberlist_prepare_profile_data'	       => 'prepare_medals',
 			//'core.user_setup'		=> 'load_language_on_setup',
 			//'core.memberlist_view_profile'	      => 'fuunct_one',
 			//'core.viewtopic_modify_post_row'	=>	'modify_post_row',
-			
+
 			'core.user_setup'		=> 'load_language_on_setup',
 			'core.ucp_add_zebra'	=>	'zebra_confirm_add',
 			'core.ucp_remove_zebra'	=>	'zebra_confirm_remove',
@@ -43,9 +34,8 @@ class zebra_listener implements EventSubscriberInterface
 			'core.delete_user_before'	=> 'delete_users',
 			'core.memberlist_prepare_profile_data'	       => 'prepare_friends',
 		);
-    }
-	
-	
+	}
+
 	/**
 	* Constructor
 	* NOTE: The parameters of this method must match in order and type with
@@ -80,13 +70,8 @@ class zebra_listener implements EventSubscriberInterface
 		$this->table_prefix = $table_prefix;
 	}
 	public function load_language_on_setup($event){
-		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
-            'ext_name' => 'anavaro/zebraenhance',
-            'lang_set' => 'zebra_enchance',
-        );
-        $event['lang_set_ext'] = $lang_set_ext;
-		$this->notifyhelper->test();
+		$this->user->add_lang_ext('anavaro/zebraenhance', 'zebra_enchance');
+
 		if ($this->config['zebra_module_id'] == 'none')
 		{
 			$sql = 'SELECT parent_id FROM ' . MODULES_TABLE . ' WHERE module_basename = \'ucp_zebra\' LIMIT 1';
@@ -94,12 +79,10 @@ class zebra_listener implements EventSubscriberInterface
 			$row = $this->db->sql_fetchrow($result);
 			$this->config->set('zebra_module_id', $row['parent_id']);
 		}
-
 	}
 
-
 	protected $image_dir = 'ext/anavaro/zebraenhance/images';
-	
+
 	public function zebra_confirm_add($event)
 	{
 		if ($event['mode'] == 'friends')
@@ -122,11 +105,11 @@ class zebra_listener implements EventSubscriberInterface
 						$this->db->sql_query($sql);
 						$sql = 'INSERT INTO '. ZEBRA_TABLE .' SET user_id = ' . (int) $VAR['zebra_id'] . ', zebra_id = ' . (int) $VAR['user_id'] . ', friend = 1, foe = 0';
 						$this->db->sql_query($sql);
-						
+
 						//Let's update zebra_change in custom
 						$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET zebra_changed = 1 WHERE (user_id =  ' . (int) $VAR['zebra_id'] . ' or user_id =  ' . (int) $VAR['user_id'] . ')';
 						$this->db->sql_query($sql);
-						
+
 						//let's clean the request table 
 						$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . (int) $VAR['zebra_id'] . ' AND zebra_id = ' . (int) $VAR['user_id'];
 						$this->db->sql_query($sql);
@@ -161,7 +144,7 @@ class zebra_listener implements EventSubscriberInterface
 			}
 		}
 	}
-	
+
 	public function zebra_confirm_remove($event)
 	{
 		if($event['mode'] == 'friends')
@@ -173,34 +156,33 @@ class zebra_listener implements EventSubscriberInterface
 				WHERE user_id = ' . $this->user->data['user_id'] . '
 				AND zebra_id = '. $VAR;
 				$this->db->sql_query($sql);
-				
+
 				$sql = 'DELETE FROM ' . ZEBRA_TABLE . '
 				WHERE user_id = ' . $VAR . '
 				AND zebra_id = '. $this->user->data['user_id'];
 				$this->db->sql_query($sql);
-				
+
 				$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm
 				WHERE user_id = ' . $this->user->data['user_id'] . '
 				AND zebra_id = '. $VAR;
 				$this->db->sql_query($sql);
-				
+
 				$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm
 				WHERE user_id = ' . $VAR . '
 				AND zebra_id = '. $this->user->data['user_id'];
 				$this->db->sql_query($sql);
-				
+
 				$this->notifyhelper->clean($VAR, $this->user->data['user_id']);
-				
+
 				//Let's update zebra_change in custom
 				$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET zebra_changed = 1 WHERE (user_id =  ' . (int) $this->user->data['user_id'] . ' or user_id =  ' . (int) $VAR . ')';
 				$this->db->sql_query($sql);
 			}
-			
+
 			$event['user_ids'] = array('0');
 		}
 	}
-	
-	
+
 	public function module_display($event)
 	{
 		$ispending = $iswaiting = '';
@@ -221,7 +203,7 @@ class zebra_listener implements EventSubscriberInterface
 			);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
-			
+
 			while($row = $this->db->sql_fetchrow($result))
 			{
 				$ispending = 1;
@@ -234,7 +216,6 @@ class zebra_listener implements EventSubscriberInterface
 			if($ispending)
 			{
 				$this->template->assign_var('HAS_PENDING', 'yes');
-				
 			}
 			//now, let's get our own requests that are waiting.
 			$sql_array = array(
@@ -260,8 +241,7 @@ class zebra_listener implements EventSubscriberInterface
 			{
 				$this->template->assign_var('HAS_WAITING', 'yes');
 			}
-			
-			
+
 			//let's populate the prity zebra list (bff and all)
 			$sql_array = array(
 				'SELECT'	=> 'zc.*, u.username, u.user_colour',
@@ -285,20 +265,18 @@ class zebra_listener implements EventSubscriberInterface
 			$this->template->assign_var('IMGDIR', $this->image_dir);
 		}
 	}
-	
-	
+
 	public function delete_users($event)
-	{	
+	{
 		foreach ($event['user_ids'] AS $VAR)
 		{
 			$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = '.$VAR.' OR zebra_id = '.$VAR;
 			$this->db->sql_query($sql);
 			$sql = 'DELETE FROM '. ZEBRA_TABLE .' WHERE user_id = '.$VAR.' OR zebra_id = '.$VAR;
 			$this->db->sql_query($sql);
-			file_put_contents($this->root_path . '/cache/zebraenhance', $VAR . ',', FILE_APPEND);
 		}
 	}
-	
+
 	public function prepare_friends($event)
 	{
 		$sql = 'SELECT profile_friend_show FROM ' . $this->table_prefix . 'users_custom WHERE user_id = '.$this->db->sql_escape($event['data']['user_id']);
@@ -366,7 +344,7 @@ class zebra_listener implements EventSubscriberInterface
 		}
 		$this->template->assign_var('FRIENDLIST', 'yes');
 	}
-	
+
 	protected function var_display($i) 
 	{
 		echo '<pre>';
@@ -374,5 +352,4 @@ class zebra_listener implements EventSubscriberInterface
 		echo '</pre>';
 		return true;
 	}
-	
 }

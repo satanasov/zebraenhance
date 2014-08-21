@@ -41,12 +41,7 @@ class notifyhelper
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
-	
-	public function test()
-	{
 
-	}
-	
 	/**
 	* Main notification function
 	* @param type			Type of notification (add/confirm)
@@ -59,10 +54,9 @@ class notifyhelper
 			'user_id'	=> (int) $notify_user,
 			'requester_id'	=> (int) $action_user,
 		);
-		
-		
+
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
-		
+
 		switch ($type)
 		{
 			case 'add':
@@ -72,7 +66,6 @@ class notifyhelper
 				$phpbb_notifications->add_notifications('zebraconfirm', $notification_data);
 			break;
 		}
-		
 	}
 	public function clean($user1, $user2)
 	{
