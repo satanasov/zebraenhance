@@ -137,7 +137,7 @@ class ajaxify
 			break;
 		}
 	}
-	protected function var_display($i) 
+	protected function var_display($i)
 	{
 		echo '<pre>';
 		print_r($i);

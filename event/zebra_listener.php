@@ -69,7 +69,8 @@ class zebra_listener implements EventSubscriberInterface
 		$this->php_ext = $php_ext;
 		$this->table_prefix = $table_prefix;
 	}
-	public function load_language_on_setup($event){
+	public function load_language_on_setup($event)
+	{
 		$this->user->add_lang_ext('anavaro/zebraenhance', 'zebra_enchance');
 
 		if ($this->config['zebra_module_id'] == 'none')
@@ -87,7 +88,7 @@ class zebra_listener implements EventSubscriberInterface
 	{
 		if ($event['mode'] == 'friends')
 		{
-			foreach($event['sql_ary'] as $VAR) 
+			foreach($event['sql_ary'] as $VAR)
 			{
 				//let's test if we have sent request
 				$sql = 'SELECT * FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . (int) $VAR['user_id'] . ' AND zebra_id = ' . (int) $VAR['zebra_id'];
@@ -98,7 +99,7 @@ class zebra_listener implements EventSubscriberInterface
 					$sql = 'SELECT * FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . (int) $VAR['zebra_id'] . ' AND zebra_id = ' . (int) $VAR['user_id'];
 					$result = $this->db->sql_fetchrow($this->db->sql_query($sql));
 					//$this->var_display($result);
-					if ($result) 
+					if ($result)
 					{
 						//so we have incoming request -> we add friends!
 						$sql = 'INSERT INTO '. ZEBRA_TABLE .' SET user_id = ' . (int) $VAR['user_id'] . ', zebra_id = ' . (int) $VAR['zebra_id'] . ', friend = 1, foe = 0';
@@ -134,7 +135,7 @@ class zebra_listener implements EventSubscriberInterface
 		}
 		if ($event['mode'] == 'foes')
 		{
-			foreach($event['sql_ary'] as $VAR) 
+			foreach($event['sql_ary'] as $VAR)
 			{
 				//if we add user as foe we have to remove pending requests.
 				$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . (int) $VAR['zebra_id']. ' AND zebra_id = ' . (int) $VAR['user_id'];
@@ -150,7 +151,7 @@ class zebra_listener implements EventSubscriberInterface
 		if($event['mode'] == 'friends')
 		{
 			//let's go for syncronieus remove
-			foreach($event['user_ids'] AS $VAR)
+			foreach($event['user_ids'] as $VAR)
 			{
 				$sql = 'DELETE FROM ' . ZEBRA_TABLE . '
 				WHERE user_id = ' . $this->user->data['user_id'] . '
@@ -186,7 +187,7 @@ class zebra_listener implements EventSubscriberInterface
 	public function module_display($event)
 	{
 		$ispending = $iswaiting = '';
-		if ($event['id'] == 'ucp_zebra' OR $event['id'] == $this->config['zebra_module_id'])
+		if ($event['id'] == 'ucp_zebra' or $event['id'] == $this->config['zebra_module_id'])
 		{
 			$this->template->assign_var('IS_ZEBRA', '1');
 			$sql = 'SELECT profile_friend_show FROM ' . $this->table_prefix . 'users_custom WHERE user_id = '. $this->user->data['user_id'];
@@ -268,7 +269,7 @@ class zebra_listener implements EventSubscriberInterface
 
 	public function delete_users($event)
 	{
-		foreach ($event['user_ids'] AS $VAR)
+		foreach ($event['user_ids'] as $VAR)
 		{
 			$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = '.$VAR.' OR zebra_id = '.$VAR;
 			$this->db->sql_query($sql);
@@ -345,7 +346,7 @@ class zebra_listener implements EventSubscriberInterface
 		$this->template->assign_var('FRIENDLIST', 'yes');
 	}
 
-	protected function var_display($i) 
+	protected function var_display($i)
 	{
 		echo '<pre>';
 		print_r($i);
