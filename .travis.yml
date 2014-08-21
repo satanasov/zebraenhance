@@ -38,6 +38,7 @@ branches:
     - master
     - develop
     - /^develop-.*$/
+	- /^v1.*$/
 
 install:
   - composer install --dev --no-interaction --prefer-source
