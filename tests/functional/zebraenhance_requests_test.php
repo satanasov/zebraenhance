@@ -31,16 +31,7 @@ class zebraenhance_requests_cancel_test extends zebraenhance_base
 		$crawler = self::submit($form);
 		
 		$this->assertContains($this->lang('FRIENDS_UPDATED'), $crawler->filter('html')->text());
-		
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
-		$this->assertContains($this->lang('testuser'), $crawler->filter('html')->text());
-		
-		$link = $crawler->filter('#ze_slef_req')->filter('span')->first()->link()->getUri();
-		
-		$crawler = self::request('GET', $link);
-		$this->assertContains($this->lang('CONFIRM_OPERATION'), $crawler->filter('html')->text());
-		
-		$form = $crawler->selectButton($this->lang('YES'))->form();
-		$crawler = self::submit($form);
+		$this->assertContains('testuser', $crawler->filter('html')->text());
 	}
 }
