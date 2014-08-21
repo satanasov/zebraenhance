@@ -60,19 +60,19 @@ class notifyhelper
 		switch ($type)
 		{
 			case 'add':
-				$phpbb_notifications->add_notifications('zebraadd', $notification_data);
+				$phpbb_notifications->add_notifications('notification.type.zebraadd', $notification_data);
 			break;
 			case 'confirm':
-				$phpbb_notifications->add_notifications('zebraconfirm', $notification_data);
+				$phpbb_notifications->add_notifications('notification.type.zebraconfirm', $notification_data);
 			break;
 		}
 	}
 	public function clean($user1, $user2)
 	{
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
-		$phpbb_notifications->delete_notifications('zebraadd', $user1, $user2);
-		$phpbb_notifications->delete_notifications('zebraadd', $user2, $user1);
-		$phpbb_notifications->delete_notifications('zebraconfirm', $user2, $user1);
-		$phpbb_notifications->delete_notifications('zebraconfirm', $user1, $user2);
+		$phpbb_notifications->delete_notifications('notification.type.zebraadd', $user1, $user2);
+		$phpbb_notifications->delete_notifications('notification.type.zebraadd', $user2, $user1);
+		$phpbb_notifications->delete_notifications('notification.type.zebraconfirm', $user2, $user1);
+		$phpbb_notifications->delete_notifications('notification.type.zebraconfirm', $user1, $user2);
 	}
 }
