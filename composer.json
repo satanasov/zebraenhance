@@ -2,9 +2,9 @@
 	"name": "anavaro/zebraenhance",
 	"type": "phpbb-extension",
 	"description": "Enchance ZEBRA function adding confimation and special friends",
-	"homepage": "",
+	"homepage": "https://github.com/lucifer4o/zebraenhance",
 	"version": "1.0.1",
-	"time": "2014-05-23",
+	"time": "2014-08-21",
 	"license": "GPL-2.0",
 	"authors": [
 		{
