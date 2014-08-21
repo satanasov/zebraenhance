@@ -11,7 +11,7 @@
 <!-- IF HAS_WAITING -->
 <dl>
 	<dt><label>{L_UCP_ZEBRA_PENDING_OUT}</label><br /><span>{L_UCP_ZEBRA_PENDING_OUT_EXP}</span></dt>
-	<dd style="height: 100px; width: 250px; overflow: auto;">
+	<dd id="ze_slef_req" style="height: 100px; width: 250px; overflow: auto;">
 		<!-- BEGIN pending_awaits -->
 				<span style="display: block;">{pending_awaits.CANCEL} {pending_awaits.USERNAME}</span>
 		<!-- END pending_awaits -->
@@ -20,7 +20,7 @@
 <!-- ENDIF -->
 <dl>
 	<dt><label <!-- IF S_USERNAME_OPTIONS -->for="usernames"<!-- ENDIF -->>{L_YOUR_FRIENDS}{L_COLON}</label><br /><span>{L_YOUR_FRIENDS_EXPLAIN}</span></dt>
-	<dd style="height: 200px; width: 250px; overflow: auto;">
+	<dd id="ze_other_req"style="height: 200px; width: 250px; overflow: auto;">
 		<!-- BEGIN prity_zebra -->
 			<div style="display: block;"><div style="float: left;">{prity_zebra.BFF} {prity_zebra.USERNAME}</div><div style="float: right;"> {prity_zebra.CANCEL} </div> <div style="clear: both"></div></div>
 		<!-- END prity_zebra -->
