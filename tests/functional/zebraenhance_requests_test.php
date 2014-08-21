@@ -16,11 +16,26 @@ namespace anavaro\zebraenhance\tests\functional;
 class zebraenhance_requests_test extends zebraenhance_base
 {
 
-	public function test_post()
+	public function test_request()
 	{
 		$this->create_user('testuser');
 		$this->add_user_group('NEWLY_REGISTERED', array('testuser'));
 
+		$this->login();
+		$this->add_lang('ucp');
+		$this->add_lang('common');
+		
+		$crawler = self::request('GET', "ucp.php?i=zebra&add=testuser&sid={$this->sid}");
+		
+		$form = $crawler->selectButton($this->lang('YES'))->form();
+		$crawler = self::submit($form);
+		
+		$this->assertContains($this->lang('FRIENDS_UPDATED'), $crawler->filter('html')->text());
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
+		$this->assertContains('testuser', $crawler->filter('html')->text());
+	}
+	public function test_own_reqest_cancel()
+	{
 		$this->login();
 		$this->add_lang('ucp');
 		
@@ -30,5 +45,16 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$crawler = self::submit($form);
 		
 		$this->assertContains($this->lang('FRIENDS_UPDATED'), $crawler->filter('html')->text());
+		
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
+		$this->assertContains('testuser', $crawler->filter('html')->text());
+		
+		$link = $crawler->filter('#ze_slef_req')->filter('span')->filter('a')->first()->link()->getUri();
+		
+		$crawler = self::request('GET', substr($link, strpos($link, 'ucp.')));
+		$this->assertContains($this->lang('CONFIRM_OPERATION'), $crawler->filter('html')->text());
+		
+		$form = $crawler->selectButton($this->lang('YES'))->form();
+		$crawler = self::submit($form);
 	}
 }

@@ -102,29 +102,29 @@ class zebra_listener implements EventSubscriberInterface
 					if ($result)
 					{
 						//so we have incoming request -> we add friends!
-						$sql = 'INSERT INTO '. ZEBRA_TABLE .' SET user_id = ' . (int) $VAR['user_id'] . ', zebra_id = ' . (int) $VAR['zebra_id'] . ', friend = 1, foe = 0';
+						$sql = 'INSERT INTO '. ZEBRA_TABLE .' (user_id, zebra_id, friend, foe, bff) VALUES (' .(int) $VAR['user_id'] . ', ' . (int) $VAR['zebra_id'] . ', 1, 0, 0)';
 						$this->db->sql_query($sql);
-						$sql = 'INSERT INTO '. ZEBRA_TABLE .' SET user_id = ' . (int) $VAR['zebra_id'] . ', zebra_id = ' . (int) $VAR['user_id'] . ', friend = 1, foe = 0';
+						$sql = 'INSERT INTO '. ZEBRA_TABLE .' (user_id, zebra_id, friend, foe, bff) VALUES (' .(int) $VAR['zebra_id'] . ', ' . (int) $VAR['user_id'] . ', 1, 0, 0)';
 						$this->db->sql_query($sql);
 
 						//Let's update zebra_change in custom
 						$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET zebra_changed = 1 WHERE (user_id =  ' . (int) $VAR['zebra_id'] . ' or user_id =  ' . (int) $VAR['user_id'] . ')';
 						$this->db->sql_query($sql);
 
-						//let's clean the request table 
+						//let's clean the request table
 						$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . (int) $VAR['zebra_id'] . ' AND zebra_id = ' . (int) $VAR['user_id'];
 						$this->db->sql_query($sql);
 						$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . (int) $VAR['user_id'] . ' AND zebra_id = ' . (int) $VAR['zebra_id'];
 						$this->db->sql_query($sql);
 						$this->notifyhelper->notify('confirm', $VAR['zebra_id'], $VAR['user_id']);
 					}
-					else 
+					else
 					{
 						//lets see if user is hostile towerds us (if yes - silently drop request)
 						$sql = 'SELECT * FROM '. ZEBRA_TABLE .' WHERE user_id = ' . (int) $VAR['zebra_id'] . ' AND zebra_id = ' . (int) $VAR['user_id']. ' AND foe = 1';
 						$result = $this->db->sql_fetchrow($this->db->sql_query($sql));
 						if (!$result) {
-							$sql = 'INSERT INTO ' . $this->table_prefix . 'zebra_confirm SET user_id = ' . (int) $VAR['user_id'] . ', zebra_id = ' . (int) $VAR['zebra_id'] . ', friend = 1, foe = 0';
+							$sql = 'INSERT INTO ' . $this->table_prefix . 'zebra_confirm (user_id, zebra_id, friend, foe) VALUES (' .(int) $VAR['user_id'] . ', ' . (int) $VAR['zebra_id'] . ', 1, 0)';
 							$this->db->sql_query($sql);
 							$this->notifyhelper->notify('add', $VAR['zebra_id'], $VAR['user_id']);
 						}
@@ -308,7 +308,7 @@ class zebra_listener implements EventSubscriberInterface
 		}
 		//print_r($zebra_state);
 		$users;
-		$show = ($optResult['profile_friend_show'] > 0 ? (($optResult['profile_friend_show'] == 1 AND $zebra_state != 1) ? (($optResult['profile_friend_show'] <= $zebra_state) ? true : false) : false) : false);
+		$show = ($optResult['profile_friend_show'] > 0 ? (($optResult['profile_friend_show'] == 1 and $zebra_state != 1) ? (($optResult['profile_friend_show'] <= $zebra_state) ? true : false) : false) : false);
 		if ($event['data']['user_id'] == $this->user->data['user_id'] || $this->auth->acl_get('a_user') || $show)
 		{
 			$sql = 'SELECT zebra_id FROM ' . ZEBRA_TABLE . ' WHERE user_id = ' . $this->db->sql_escape($event['data']['user_id']);
