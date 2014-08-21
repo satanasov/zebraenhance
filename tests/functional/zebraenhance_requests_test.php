@@ -16,7 +16,7 @@ namespace anavaro\zebraenhance\tests\functional;
 class zebraenhance_requests_test extends zebraenhance_base
 {
 
-	public function own_request_test()
+	public function test_request()
 	{
 		$this->create_user('testuser');
 		$this->add_user_group('NEWLY_REGISTERED', array('testuser'));

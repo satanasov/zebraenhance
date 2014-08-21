@@ -16,7 +16,7 @@ namespace anavaro\zebraenhance\tests\functional;
 class zebraenhance_requests_cancel_test extends zebraenhance_base
 {
 
-	public function test_post()
+	public function test_reqest_cancel()
 	{
 		$this->create_user('testuser');
 		$this->add_user_group('NEWLY_REGISTERED', array('testuser'));
