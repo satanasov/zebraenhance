@@ -22,11 +22,13 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$this->add_user_group('NEWLY_REGISTERED', array('testuser'));
 
 		$this->login();
+		$this->add_lang('ucp');
+		
 		$crawler = self::request('GET', "ucp.php?i=zebra&add=testuser&sid={$this->sid}");
 		
-		$form = $crawler->filter('input')->filter('Yes')->selectButton();
-		$crawler = $client->click($form);
+		$form = $crawler->selectButton($this->lang('YES'))->form();
+		$crawler = self::submit($form);
 		
-		
+		$this->assertContains($this->lang('FRIENDS_UPDATED'), $crawler->filter('html')->text());
 	}
 }
