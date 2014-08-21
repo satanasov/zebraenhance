@@ -29,16 +29,16 @@ class release_1_0_0 extends \phpbb\db\migration\migration
 			'add_tables'    => array(
 				$this->table_prefix . 'zebra_confirm'		=> array(
 					'COLUMNS'		=> array(
-						'user_id'		=> array('UINT:8'),
-						'zebra_id'		=> array('UINT:8'),
-						'friend'		=> array('UINT:1'),
-						'foe'			=> array('UINT:1')
+						'user_id'		=> array('UINT:8', null),
+						'zebra_id'		=> array('UINT:8', null),
+						'friend'		=> array('UINT:1', 0),
+						'foe'			=> array('UINT:1', 0)
 					),
 					'PRIMARY_KEY'    => 'user_id, zebra_id',
 				),
 				$this->table_prefix . 'users_custom'		=> array(
 					'COLUMNS'	=> array(
-						'user_id'	=> array('UINT'),
+						'user_id'	=> array('UINT', null),
 					),
 					'PRIMARY_KEY'    => 'user_id'
 				),
