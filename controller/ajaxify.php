@@ -9,14 +9,6 @@
 
 namespace anavaro\zebraenhance\controller;
 
-/**
-* @ignore
-*/
-
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
 
 class ajaxify
 {
@@ -51,26 +43,22 @@ class ajaxify
 		$this->php_ext = $php_ext;
 		$this->table_prefix = $table_prefix;
 	}
-	
-	
+
 	public function base ($action, $userid)
 	{
-	
 		//load language file
-		
 		$this->user->add_lang_ext('anavaro/zebraenhance', 'zebra_enchance');
 		$confirm = $this->request->variable('confirm', '');
 		$u_action = $this->root_path . 'ucp.php?i=168';
 		switch ($action)
 		{
-			
 			case 'cancel_fr':
 				// check mode
 				if ($confirm)
 				{
 					//$this->var_display($userid);
 					//let me delete all requests between you and user id.
-					
+
 					$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . $userid . ' AND zebra_id = ' . $this->user->data['user_id'];
 					$this->db->sql_query($sql);
 					$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . $this->user->data['user_id'] . ' AND zebra_id = ' . $userid;
@@ -132,7 +120,7 @@ class ajaxify
 						'user_id'	=>	$userid,
 					));
 				}
-				
+
 			break;
 			case 'change_acl':
 				if ($userid > 4)
@@ -156,6 +144,4 @@ class ajaxify
 		echo '</pre>';
 		return true;
 	}
-	
-
 }

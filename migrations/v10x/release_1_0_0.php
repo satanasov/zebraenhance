@@ -12,9 +12,9 @@ namespace anavaro\zebraenhance\migrations\v10x;
 class release_1_0_0 extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()
-        {
-                return isset($this->config['zebra_enhance_version']) && version_compare($this->config['zebra_enhance_version'], '1.0.0', '>=');
-        }
+	{
+		return isset($this->config['zebra_enhance_version']) && version_compare($this->config['zebra_enhance_version'], '1.0.0', '>=');
+	}
 	public function update_data()
 	{
 		return array(
@@ -22,15 +22,15 @@ class release_1_0_0 extends \phpbb\db\migration\migration
 			array('config.add', array('zebra_module_id', 'none')),
 		);
 	}
-	//lets create the needed table	
+	//lets create the needed table
 	public function update_schema()
 	{
 		return array(
 			'add_tables'    => array(
 				$this->table_prefix . 'zebra_confirm'		=> array(
 					'COLUMNS'		=> array(
-						'user_id'		=> array('UINT:8', null),
-						'zebra_id'		=> array('UINT:8', null),
+						'user_id'		=> array('UINT:8', 0),
+						'zebra_id'		=> array('UINT:8', 0),
 						'friend'		=> array('UINT:1', 0),
 						'foe'			=> array('UINT:1', 0)
 					),
@@ -38,7 +38,7 @@ class release_1_0_0 extends \phpbb\db\migration\migration
 				),
 				$this->table_prefix . 'users_custom'		=> array(
 					'COLUMNS'	=> array(
-						'user_id'	=> array('UINT', null),
+						'user_id'	=> array('UINT', 0),
 					),
 					'PRIMARY_KEY'    => 'user_id'
 				),
