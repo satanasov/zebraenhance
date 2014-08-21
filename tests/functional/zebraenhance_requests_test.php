@@ -25,7 +25,7 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$crawler = self::request('GET', "ucp.php?i=zebra&add=testuser&sid={$this->sid}");
 		
 		$form = $crawler->selectButton('submit')->form();
-		$crawler = $client->submit($form);
+		$crawler = $client->click($form);
 		
 		
 	}
