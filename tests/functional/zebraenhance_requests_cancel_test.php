@@ -13,7 +13,7 @@ namespace anavaro\zebraenhance\tests\functional;
 /**
 * @group functional
 */
-class zebraenhance_requests_test extends zebraenhance_base
+class zebraenhance_requests_cancel_test extends zebraenhance_base
 {
 
 	public function test_post()
