@@ -89,7 +89,7 @@ class zebraenhance_requests_test extends zebraenhance_base
 		
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
 		
-		$this->add_lang_ext('acme/demo', 'common');
+		$this->add_lang_ext('anavaro/zebbraenhance', 'common');
 		$this->assertNotContains($this->lang('L_YOUR_FRIENDS'), $crawler->filter('html')->text());
 		
 	}
