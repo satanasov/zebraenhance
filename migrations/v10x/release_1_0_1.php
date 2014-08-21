@@ -15,13 +15,13 @@ class release_1_0_1 extends \phpbb\db\migration\migration
 	{
 		return !isset($this->config['zebra_enhance_version']);
 	}
-	
+
 	static public function depends_on()
 	{
 		return array('\anavaro\zebraenhance\migrations\v10x\release_1_0_0');
 	}
-	
-	//lets create the needed table	
+
+	//lets create the needed table
 	public function update_schema()
 	{
 		return array(
@@ -43,7 +43,7 @@ class release_1_0_1 extends \phpbb\db\migration\migration
 			)
 		);
 	}
-	
+
 	public function update_data()
 	{
 		return array(
