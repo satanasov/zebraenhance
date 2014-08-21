@@ -123,6 +123,10 @@ class zebra_listener implements EventSubscriberInterface
 						$sql = 'INSERT INTO '. ZEBRA_TABLE .' SET user_id = ' . (int) $VAR['zebra_id'] . ', zebra_id = ' . (int) $VAR['user_id'] . ', friend = 1, foe = 0';
 						$this->db->sql_query($sql);
 						
+						//Let's update zebra_change in custom
+						$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET zebra_changed = 1 WHERE (user_id =  ' . (int) $VAR['zebra_id'] . ' or user_id =  ' . (int) $VAR['user_id'] . ')';
+						$this->db->sql_query($sql);
+						
 						//let's clean the request table 
 						$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . (int) $VAR['zebra_id'] . ' AND zebra_id = ' . (int) $VAR['user_id'];
 						$this->db->sql_query($sql);
@@ -186,6 +190,10 @@ class zebra_listener implements EventSubscriberInterface
 				$this->db->sql_query($sql);
 				
 				$this->notifyhelper->clean($VAR, $this->user->data['user_id']);
+				
+				//Let's update zebra_change in custom
+				$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET zebra_changed = 1 WHERE (user_id =  ' . (int) $this->user->data['user_id'] . ' or user_id =  ' . (int) $VAR . ')';
+				$this->db->sql_query($sql);
 			}
 			
 			$event['user_ids'] = array('0');
@@ -287,6 +295,7 @@ class zebra_listener implements EventSubscriberInterface
 			$this->db->sql_query($sql);
 			$sql = 'DELETE FROM '. ZEBRA_TABLE .' WHERE user_id = '.$VAR.' OR zebra_id = '.$VAR;
 			$this->db->sql_query($sql);
+			file_put_contents($this->root_path . '/cache/zebraenhance', $VAR . ',', FILE_APPEND);
 		}
 	}
 	
