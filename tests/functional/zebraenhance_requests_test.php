@@ -123,6 +123,6 @@ class zebraenhance_requests_test extends zebraenhance_base
 		
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
 		$this->assertNotContains($this->lang('UCP_ZEBRA_PENDING_OUT'), $crawler->filter('html')->text());
-		$this->assertEquals(2, $crawler->filter($this->lang('YOUR_FRIENDS'))->count());
+		$this->assertEquals(2, $crawler->filter('html:contains("'.$this->lang('YOUR_FRIENDS').'")')->count());
 	}
 }
