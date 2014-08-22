@@ -43,7 +43,7 @@ $lang = array_merge($lang, array(
 	'SPECIAL_FRIENDS'	=>	'Special friends',
 
 	'ZE_FRIENDLIST'	=>	'Friendlist',
-	'ZE_FRIENDLIST_EXPLAIN'	=>	'Who can see your frindlist?',
+	'ZE_FRIENDLIST_EXPLAIN'	=>	'Who can see your friendlist?',
 
 	'FRIENDLIST_ERROR_ACCESS'	=>	'You do not have access to see user\'s friendlist.',
 
