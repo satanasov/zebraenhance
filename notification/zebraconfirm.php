@@ -62,7 +62,7 @@ class zebraconfirm extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'zebraconfirm';
+		return 'notification.type.zebraconfirm';
 	}
 
 	/**
@@ -153,7 +153,7 @@ class zebraconfirm extends \phpbb\notification\type\base
 		$users = array($this->get_data('requester_id'));
 		$this->user_loader->load_users($users);
 		$username = $this->user_loader->get_username($this->get_data('requester_id'), 'no_profile');
-		return $this->user->lang('NOTIFICATION_ZEBRA_ADD', $username);
+		return $this->user->lang('NOTIFICATION_ZEBRA_CONFIRM', $username);
 	}
 
 	/**

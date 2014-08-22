@@ -62,7 +62,7 @@ class zebraadd extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'zebraadd';
+		return 'notification.type.zebraadd';
 	}
 
 	/**
