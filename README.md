@@ -41,6 +41,8 @@ Zebra enhance
 
     @phpbb-es aka Raul [ThE KuKa]
     Meis2M
+    @David-NF aka watisnf.nl
+
     
   Submitting translations/functions
     
