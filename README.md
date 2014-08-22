@@ -40,6 +40,7 @@ Zebra enhance
   Credits:
 
     @phpbb-es aka Raul [ThE KuKa]
+    Meis2M
     
   Submitting translations/functions
     
