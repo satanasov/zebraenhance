@@ -1,7 +1,7 @@
 <!-- IF HAS_PENDING -->
 <dl>
 	<dt><label>{L_UCP_ZEBRA_PENDING_IN}</label><br /><span>{L_UCP_ZEBRA_PENDING_IN_EXP}</span></dt>
-	<dd style="height: 100px; width: 250px; overflow: auto;">
+	<dd id="ze_other_req" style="height: 100px; width: 250px; overflow: auto;">
 		<!-- BEGIN pending_requests -->
 				<span style="display: block;">{pending_requests.CONFIRM} {pending_requests.CANCEL} {pending_requests.USERNAME}</span>
 		<!-- END pending_requests -->
@@ -20,7 +20,7 @@
 <!-- ENDIF -->
 <dl>
 	<dt><label <!-- IF S_USERNAME_OPTIONS -->for="usernames"<!-- ENDIF -->>{L_YOUR_FRIENDS}{L_COLON}</label><br /><span>{L_YOUR_FRIENDS_EXPLAIN}</span></dt>
-	<dd id="ze_other_req"style="height: 200px; width: 250px; overflow: auto;">
+	<dd style="height: 200px; width: 250px; overflow: auto;">
 		<!-- BEGIN prity_zebra -->
 			<div style="display: block;"><div style="float: left;">{prity_zebra.BFF} {prity_zebra.USERNAME}</div><div style="float: right;"> {prity_zebra.CANCEL} </div> <div style="clear: both"></div></div>
 		<!-- END prity_zebra -->

@@ -211,7 +211,7 @@ class zebra_listener implements EventSubscriberInterface
 				$this->template->assign_block_vars('pending_requests', array(
 					'USERNAME'	=> '<a class="username-coloured" style="color: '.$row['user_colour'].'" href="'.append_sid('memberlist.php?mode=viewprofile&u='.$row['user_id']).'">'.$row['username'].'</a>',
 					'CONFIRM' => '<a href="./ucp.php?i=zebra&add='.$row['username'].'" data-ajax="true" data-refresh="true"><img src="' . $this->image_dir . '/confirm_16.png"/></a>',
-					'CANCEL'	=> '<a href="./ucp.php?i=zebra&remove=1&usernames[]='.$row['user_id'].' data-ajax="true" data-refresh="true""><img src="' . $this->image_dir . '/cancel.gif"/></a>',
+					'CANCEL'	=> '<a href="./ucp.php?i=zebra&remove=1&usernames[]='.$row['user_id'].'" data-ajax="true" data-refresh="true""><img src="' . $this->image_dir . '/cancel.gif"/></a>',
 				));
 			}
 			if($ispending)
