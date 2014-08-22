@@ -36,3 +36,12 @@ Zebra enhance
     - cd $phpbb_root/ext/anavaro
     - git clone https://github.com/lucifer4o/zebraenhance.git
     - Go to admin panel -> customize -> extensions -> Enable Friendlist Enhance
+
+  Credits:
+
+    @phpbb-es aka Raul [ThE KuKa]
+    
+  Submitting translations/functions
+    
+    Please fork the repo and submit every translation/patch as Pull Request.
+
