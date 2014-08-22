@@ -2,7 +2,7 @@
 
 /**
 *
-* newspage [Bulgarian]
+* Zebra Enhance [Bulgarian]
 *
 * @package language
 * @version $Id$
