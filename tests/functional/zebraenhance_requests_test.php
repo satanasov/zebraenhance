@@ -91,7 +91,7 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$crawler = self::submit($form);
 		
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
-		$this->assertNotContains($this->lang('UCP_ZEBRA_PENDING_IN'), $crawler->filter('html')->text());
+		$this->assertNotContains($this->lang('UCP_ZEBRA_PENDING_OUT'), $crawler->filter('html')->text());
 	}
 	public function test_user_reqest_accept()
 	{
@@ -113,7 +113,7 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$this->login('testuser');
 		$this->add_lang_ext('anavaro/zebraenhance', 'zebra_enchance');
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
-		$this->assertContains($this->lang('UCP_ZEBRA_PENDING_OUT'), $crawler->filter('html')->text());
+		$this->assertContains($this->lang('UCP_ZEBRA_PENDING_IN'), $crawler->filter('html')->text());
 		
 		$link = $crawler->filter('#ze_other_req')->filter('span')->filter('a')->eq(0)->link()->getUri();
 		
@@ -123,7 +123,7 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$crawler = self::submit($form);
 		
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
-		$this->assertNotContains($this->lang('UCP_ZEBRA_PENDING_OUT'), $crawler->filter('html')->text());
+		$this->assertNotContains($this->lang('UCP_ZEBRA_PENDING_IN'), $crawler->filter('html')->text());
 		
 	}
 }
