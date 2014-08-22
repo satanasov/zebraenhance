@@ -151,7 +151,10 @@ class zebraenhance_requests_test extends zebraenhance_base
 		
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
 		$this->assertNotContains('testuser', $crawler->filter('html')->text());
+		$this->assertEquals(0, $crawler->filter('#ze_ajaxify')->count());
 		
 		$this->logout();
+		
+		
 	}
 }
