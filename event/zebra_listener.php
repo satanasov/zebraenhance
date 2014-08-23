@@ -70,6 +70,7 @@ class zebra_listener implements EventSubscriberInterface
 		$this->php_ext = $php_ext;
 		$this->table_prefix = $table_prefix;
 	}
+
 	public function load_language_on_setup($event)
 	{
 		$this->user->add_lang_ext('anavaro/zebraenhance', 'zebra_enchance');
@@ -81,7 +82,7 @@ class zebra_listener implements EventSubscriberInterface
 			$row = $this->db->sql_fetchrow($result);
 			$this->config->set('zebra_module_id', $row['parent_id']);
 		}
-		
+
 		$id = $this->request->variable('i', '');
 		if ($id == 'zebra' or $id == 'ucp_zebra' or $id == $this->config['zebra_module_id'])
 		{
