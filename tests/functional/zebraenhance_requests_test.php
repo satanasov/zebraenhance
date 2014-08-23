@@ -159,6 +159,30 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
 		$this->assertNotContains('admin', $crawler->filter('html')->text());
 		$this->assertEquals(0, $crawler->filter('#ze_ajaxify')->count());
+	}
+	
+	public function test_togle_bff()
+	{
+		//we create friends
+		$crawler = self::request('GET', "ucp.php?i=zebra&add=testuser&sid={$this->sid}");
+		$form = $crawler->selectButton($this->lang('YES'))->form();
+		$crawler = self::submit($form);
+		$this->logout();
 		
+		$this->login('testuser');
+		$this->add_lang_ext('anavaro/zebraenhance', 'zebra_enchance');
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
+		$this->assertContains($this->lang('UCP_ZEBRA_PENDING_IN'), $crawler->filter('html')->text());
+		$link = $crawler->filter('#ze_other_req')->filter('span')->filter('a')->eq(0)->link()->getUri();
+		$crawler = self::request('GET', substr($link, strpos($link, 'ucp.')));
+		$this->assertContains($this->lang('CONFIRM_OPERATION'), $crawler->filter('html')->text());
+		$form = $crawler->selectButton($this->lang('YES'))->form();
+		$crawler = self::submit($form);
+		
+		$link = $crawler->filter('#ze_ajaxify')->filter('a')->eq(0)->link();
+		$crawler = self::click($link);
+		
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
+		$this->assertContains('favorite_remove.png', $crawler->filter('#ze_ajaxify')->filter('a')->eq(0)->filter('img')->getAttribute('src')->text();
 	}
 }
