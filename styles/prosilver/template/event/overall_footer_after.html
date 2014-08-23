@@ -22,11 +22,6 @@ phpbb.addAjaxCallback('togle_bff', function(data) {
 	}
 });
 
-$('#zebra_profile_acl').change(function() {
-	$.post('app.php/zebraenhance/change_acl/' + $('#zebra_profile_acl').val(), function(data){
-	});
-});
-
 })(jQuery); // Avoid conflicts with other libraries
 </script>
 <!-- ENDIF -->

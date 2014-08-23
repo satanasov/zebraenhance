@@ -28,6 +28,7 @@ class zebra_listener implements EventSubscriberInterface
 			//'core.viewtopic_modify_post_row'	=>	'modify_post_row',
 
 			'core.user_setup'		=> 'load_language_on_setup',
+			'core.ucp_display_module_before'	=> 'user_prefs',
 			'core.ucp_add_zebra'	=>	'zebra_confirm_add',
 			'core.ucp_remove_zebra'	=>	'zebra_confirm_remove',
 			'core.ucp_display_module_before'	=>	'module_display',
@@ -80,8 +81,22 @@ class zebra_listener implements EventSubscriberInterface
 			$row = $this->db->sql_fetchrow($result);
 			$this->config->set('zebra_module_id', $row['parent_id']);
 		}
+		
+		$id = $this->request->variable('i', '');
+		if ($id == 'zebra' or $id == 'ucp_zebra' or $id == $this->config['zebra_module_id'])
+		{
+			$friend_list_acl = $this->request->variable('zebra_profile_acl', '');
+			if ($friend_list_acl)
+			{
+				if ($friend_list_acl > 4)
+				{
+					$friend_list_acl = 0;
+				}
+				$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET profile_friend_show = ' . $friend_list_acl . ' WHERE user_id = '.$this->user->data['user_id'];
+				$this->db->sql_query($sql);
+			}
+		}
 	}
-
 	protected $image_dir = 'ext/anavaro/zebraenhance/images';
 
 	public function zebra_confirm_add($event)
@@ -187,7 +202,7 @@ class zebra_listener implements EventSubscriberInterface
 	public function module_display($event)
 	{
 		$ispending = $iswaiting = '';
-		if ($event['id'] == 'ucp_zebra' or $event['id'] == $this->config['zebra_module_id'])
+		if ($event['id'] == 'zebra' or $event['id'] == 'ucp_zebra' or $event['id'] == $this->config['zebra_module_id'])
 		{
 			$this->template->assign_var('IS_ZEBRA', '1');
 			$sql = 'SELECT profile_friend_show FROM ' . $this->table_prefix . 'users_custom WHERE user_id = '. $this->user->data['user_id'];

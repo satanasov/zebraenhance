@@ -122,19 +122,6 @@ class ajaxify
 				}
 
 			break;
-			case 'change_acl':
-				if ($userid > 4)
-				{
-					$userid = 0;
-				}
-				$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET profile_friend_show = ' . $userid . ' WHERE user_id = '.$this->user->data['user_id'];
-				$this->db->sql_query($sql);
-				$json_response = new \phpbb\json_response;
-					$json_response->send(array(
-						'status' => 0,
-						'exit'	=>	'acl_set'
-					));
-			break;
 		}
 	}
 	protected function var_display($i)
