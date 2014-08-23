@@ -182,8 +182,9 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$crawler = self::submit($form);
 		
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
-		$link = $crawler->filter('#ze_ajaxify')->filter('a')->eq(0)->link();
-		$crawler = self::click($link);
+		$link = $crawler->filter('#ze_ajaxify')->filter('a')->eq(0)->link()->getUri();
+		//togle like
+		$crw1 = self::request('GET', substr($link, strpos($link, 'app.')), array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
 		
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
 		$this->assertContains('favorite_remove.png', $crawler->filter('#ze_ajaxify')->filter('a')->eq(0)->filter('img')->getAttribute('src')->text());
