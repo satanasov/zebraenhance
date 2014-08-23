@@ -159,10 +159,12 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
 		$this->assertNotContains('admin', $crawler->filter('html')->text());
 		$this->assertEquals(0, $crawler->filter('#ze_ajaxify')->count());
+		$this->logout();
 	}
 	
 	public function test_togle_bff()
 	{
+		$this->login();
 		//we create friends
 		$crawler = self::request('GET', "ucp.php?i=zebra&add=testuser&sid={$this->sid}");
 		$form = $crawler->selectButton($this->lang('YES'))->form();
@@ -179,6 +181,7 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$form = $crawler->selectButton($this->lang('YES'))->form();
 		$crawler = self::submit($form);
 		
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
 		$link = $crawler->filter('#ze_ajaxify')->filter('a')->eq(0)->link();
 		$crawler = self::click($link);
 		
