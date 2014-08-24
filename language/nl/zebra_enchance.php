@@ -32,10 +32,10 @@ $lang = array_merge($lang, array(
 	'UCP_ZEBRA_ENCHANCE_CONFIRM_CANCEL'	=> 'Vriendschapsverzoek is geweigerd!',
 
 	'NOTIFICATION_TYPE_ZEBRA_ADD'	=>	'Nieuwe vriendschapsverzoek notificatie',
-	'NOTIFICATION_ZEBRA_ADD'	=>	'%1$s heeft je een vriendsschaps verzoek gestuurd!',
+	'NOTIFICATION_ZEBRA_ADD'	=>	'%1$s heeft je een vriendsschapsverzoek gestuurd!',
 
 	'NOTIFICATION_TYPE_ZEBRA_CONFIRM'	=>	'Bevestiging van je vriendschapsverzoek',
-	'NOTIFICATION_ZEBRA_CONFIRM'	=>	'%1$s heeft je vriendschaps verzoek goedgekeurd!',
+	'NOTIFICATION_ZEBRA_CONFIRM'	=>	'%1$s heeft je vriendschapsverzoek goedgekeurd!',
 
 	'FRINEDLIST_TITLE'	=>	'Vriendenlijst',
 
@@ -45,6 +45,6 @@ $lang = array_merge($lang, array(
 	'ZE_FRIENDLIST'	=>	'Vriendenlijst',
 	'ZE_FRIENDLIST_EXPLAIN'	=>	'Wie kan je vriendenlijst zien?',
 
-	'FRIENDLIST_ERROR_ACCESS'	=>	'Je hebt geen toegang tot de vriendlijst van deze gebruiker.',
+	'FRIENDLIST_ERROR_ACCESS'	=>	'Je hebt geen toegang tot de vriendenlijst van deze gebruiker.',
 
 ));
