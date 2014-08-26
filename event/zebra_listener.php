@@ -266,7 +266,7 @@ class zebra_listener implements EventSubscriberInterface
 					ZEBRA_TABLE	=> 'zc',
 					USERS_TABLE	=> 'u',
 				),
-				'WHERE'	=> 'zc.zebra_id = u.user_id AND zc.user_id = '.$this->user->data['user_id'],
+				'WHERE'	=> 'zc.zebra_id = u.user_id AND zc.user_id = '.$this->user->data['user_id'] .' AND zc.friend = 1',
 				'ORDER_BY'	=> 'u.username ASC'
 			);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
