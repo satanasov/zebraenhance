@@ -183,12 +183,28 @@ class zebraenhance_requests_test extends zebraenhance_base
 		
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
 		$link = $crawler->filter('#ze_ajaxify')->filter('a')->eq(0)->link()->getUri();
-		//togle like
+		//togle bff
 		$crw1 = self::request('GET', $link, array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
 		
 		//$this->assertContains('add', $crwl->filter('exit'));
 		
-		//$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
 		//$this->assertContains('favorite_remove.png', $crawler->filter('#ze_ajaxify')->filter('a')->eq(0)->filter('img')->getAttribute('src')->text());
+	}
+
+	public function test_friend_list_visibility()
+	{
+		$this->login();
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
+		$form['zebra_profile_acl'] = 0;
+		$crawler = self::submit($form);
+		$this->logout();
+
+		$this->login('testuser');
+		$this->add_lang_ext('anavaro/zebraenhance', 'zebra_enchance');
+		$crawler = self::request('GET', "memberlist.php?mode=viewprofile&u=2&sid={$this->sid}");
+		$this->assertContains('testuser', $crawler->filter('html')->filter('#medals_container')->text());
+		$this->logout();
 	}
 }
