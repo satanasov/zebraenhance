@@ -1,0 +1,20 @@
+<!-- IF FRIENDLIST -->
+<div class="panel bg1" id="medals_container">
+	<div class="inner" id="medals_inner">
+		<h3 id="medals_title">{L_FRINEDLIST_TITLE}</h3>
+		<div></div>
+		<div class="postbody">
+			<dl class="details">
+			<!-- IF FRIENDLIST_ERROR_ACCESS -->
+			<center> {L_FRIENDLIST_ERROR_ACCESS} </center>
+			<!-- ELSE -->
+			<!-- BEGIN zebra_friendslist -->
+				<span style="margin: 1px;"><a href="{zebra_friendslist.USER_LINK}" class="header-avatar">{zebra_friendslist.USER_AVATAR}</a> {zebra_friendslist.USERNAME}</span>
+				<!-- END zebra_friendslist -->	
+			<!-- ENDIF -->
+			</dl>
+		</div>
+		<span class="clear"></span>
+	</div>
+</div>
+<!-- ENDIF -->
