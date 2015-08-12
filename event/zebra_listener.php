@@ -34,6 +34,7 @@ class zebra_listener implements EventSubscriberInterface
 			'core.ucp_display_module_before'	=>	'module_display',
 			'core.delete_user_before'	=> 'delete_users',
 			'core.memberlist_prepare_profile_data'	       => 'prepare_friends',
+			'core.ucp_prefs_post_update_data'	=> 'test',
 		);
 	}
 
@@ -81,21 +82,6 @@ class zebra_listener implements EventSubscriberInterface
 			$result = $this->db->sql_query($sql);
 			$row = $this->db->sql_fetchrow($result);
 			$this->config->set('zebra_module_id', $row['parent_id']);
-		}
-
-		$id = $this->request->variable('i', '');
-		if ($id == 'zebra' or $id == 'ucp_zebra' or $id == $this->config['zebra_module_id'])
-		{
-			$friend_list_acl = $this->request->variable('zebra_profile_acl', '');
-			if ($friend_list_acl)
-			{
-				if ($friend_list_acl > 4)
-				{
-					$friend_list_acl = 0;
-				}
-				$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET profile_friend_show = ' . $friend_list_acl . ' WHERE user_id = '.$this->user->data['user_id'];
-				$this->db->sql_query($sql);
-			}
 		}
 	}
 	protected $image_dir = 'ext/anavaro/zebraenhance/images';
@@ -203,8 +189,23 @@ class zebra_listener implements EventSubscriberInterface
 	public function module_display($event)
 	{
 		$ispending = $iswaiting = '';
+		$submit = $this->request->variable('submit', false);
 		if ($event['id'] == 'zebra' or $event['id'] == 'ucp_zebra' or $event['id'] == $this->config['zebra_module_id'])
 		{
+			// Are we submiting new form?
+			if ($submit)
+			{
+				$friend_list_acl = $this->request->variable('zebra_profile_acl', '');
+				if ($friend_list_acl)
+				{
+					if ($friend_list_acl > 4)
+					{
+						$friend_list_acl = 0;
+					}
+					$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET profile_friend_show = ' . $friend_list_acl . ' WHERE user_id = '.$this->user->data['user_id'];
+					$this->db->sql_query($sql);
+				}
+			}
 			$this->template->assign_var('IS_ZEBRA', '1');
 			$sql = 'SELECT profile_friend_show FROM ' . $this->table_prefix . 'users_custom WHERE user_id = '. $this->user->data['user_id'];
 			$result = $this->db->sql_fetchrow($this->db->sql_query($sql));
@@ -302,29 +303,37 @@ class zebra_listener implements EventSubscriberInterface
 		$sql = 'SELECT * FROM ' . ZEBRA_TABLE . ' WHERE user_id = '.$this->db->sql_escape($event['data']['user_id']).' AND zebra_id = '.$this->user->data['user_id'];
 		$result = $this->db->sql_fetchrow($this->db->sql_query($sql));
 		$zebra_state = 0;
-		if ($result)
+		if ($this->auth->acl_get('a_') || $this->auth->acl_get('m_') || $this->user->data['user_id'] == $event['data']['user_id'])
 		{
-			if ($result['foe'] == 1)
+			$state = 5;
+		}
+		else if ($this->user->data['user_id'] != ANONYMOUS)
+		{
+			if ($result)
 			{
-				$zebra_state = 1;
+				if ($result['foe'] == 1)
+				{
+					$zebra_state = 1;
+				}
+				else
+				{
+					if ($result['bff'] == '0') {
+						$zebra_state = 3;
+					}
+					else {
+						$zebra_state = 4;
+					}
+				}
 			}
 			else
 			{
-				if ($result['bff'] == '0') {
-					$zebra_state = 3;
-				}
-				else {
-					$zebra_state = 4;
-				}
+				$zebra_state = 2;
 			}
 		}
-		else
-		{
-			$zebra_state = 2;
-		}
-		//print_r($zebra_state);
-		$users;
-		$show = ($optResult['profile_friend_show'] > 0 ? (($optResult['profile_friend_show'] == 1 and $zebra_state != 1) ? (($optResult['profile_friend_show'] <= $zebra_state) ? true : false) : false) : false);
+		print_r($zebra_state);
+		var_dump($optResult['profile_friend_show']);
+		$show = (($optResult['profile_friend_show'] <= $zebra_state) ? true : false);
+		var_dump($show);
 		if ($event['data']['user_id'] == $this->user->data['user_id'] || $this->auth->acl_get('a_user') || $show)
 		{
 			$sql = 'SELECT zebra_id FROM ' . ZEBRA_TABLE . ' WHERE user_id = ' . $this->db->sql_escape($event['data']['user_id']) . ' AND friend = 1';
@@ -362,6 +371,11 @@ class zebra_listener implements EventSubscriberInterface
 		$this->template->assign_var('FRIENDLIST', 'yes');
 	}
 
+	public function test($event)
+	{
+		var_dump($event['data']);
+		die();
+	}
 	protected function var_display($i)
 	{
 		echo '<pre>';
