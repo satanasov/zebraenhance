@@ -30,11 +30,12 @@
 	<dt><label>{L_ZE_FRIENDLIST}</label><br/><span>{L_ZE_FRIENDLIST_EXPLAIN}</span></dt>
 	<dd>
 		<select id="zebra_profile_acl" name="zebra_profile_acl">
-			<option value="0" <!-- IF ZEBRA_ACL == 0 -->SELECTED<!-- ENDIF -->>{L_NONE}</option>
-			<option value="1" <!-- IF ZEBRA_ACL == 1 -->SELECTED<!-- ENDIF -->>{L_NOT_ENEMY}</option>
-			<option value="2" <!-- IF ZEBRA_ACL == 2 -->SELECTED<!-- ENDIF -->>{L_ALL}</option>
+			<option value="0" <!-- IF ZEBRA_ACL == 0 -->SELECTED<!-- ENDIF -->>{L_ALL}</option>
+			<option value="1" <!-- IF ZEBRA_ACL == 1 -->SELECTED<!-- ENDIF -->>{L_REGISTERED}</option>
+			<option value="2" <!-- IF ZEBRA_ACL == 2 -->SELECTED<!-- ENDIF -->>{L_NOT_ENEMY}</option>
 			<option value="3" <!-- IF ZEBRA_ACL == 3 -->SELECTED<!-- ENDIF -->>{L_FRIENDS}</option>
 			<option value="4" <!-- IF ZEBRA_ACL == 4 -->SELECTED<!-- ENDIF -->>{L_SPECIAL_FRIENDS}</option>
+			<option value="5" <!-- IF ZEBRA_ACL == 5 -->SELECTED<!-- ENDIF -->>{L_NONE}</option>
 		</select>
 	</dd>
 </dl>

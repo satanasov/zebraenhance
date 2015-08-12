@@ -34,7 +34,6 @@ class zebra_listener implements EventSubscriberInterface
 			'core.ucp_display_module_before'	=>	'module_display',
 			'core.delete_user_before'	=> 'delete_users',
 			'core.memberlist_prepare_profile_data'	       => 'prepare_friends',
-			'core.ucp_prefs_post_update_data'	=> 'test',
 		);
 	}
 
@@ -190,26 +189,24 @@ class zebra_listener implements EventSubscriberInterface
 	{
 		$ispending = $iswaiting = '';
 		$submit = $this->request->variable('submit', false);
+		$friend_list_acl = $this->request->variable('zebra_profile_acl', 0);
 		if ($event['id'] == 'zebra' or $event['id'] == 'ucp_zebra' or $event['id'] == $this->config['zebra_module_id'])
 		{
 			// Are we submiting new form?
-			if ($submit)
+			if ($submit == true)
 			{
-				$friend_list_acl = $this->request->variable('zebra_profile_acl', '');
-				if ($friend_list_acl)
+				if ($friend_list_acl > 5)
 				{
-					if ($friend_list_acl > 4)
-					{
-						$friend_list_acl = 0;
-					}
-					$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET profile_friend_show = ' . $friend_list_acl . ' WHERE user_id = '.$this->user->data['user_id'];
-					$this->db->sql_query($sql);
+					$friend_list_acl = 0;
 				}
+				$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET profile_friend_show = ' . $friend_list_acl . ' WHERE user_id = '.$this->user->data['user_id'];
+				$this->db->sql_query($sql);
 			}
 			$this->template->assign_var('IS_ZEBRA', '1');
 			$sql = 'SELECT profile_friend_show FROM ' . $this->table_prefix . 'users_custom WHERE user_id = '. $this->user->data['user_id'];
 			$result = $this->db->sql_fetchrow($this->db->sql_query($sql));
 			$this->template->assign_var('ZEBRA_ACL', $result['profile_friend_show']);
+			var_dump($result['profile_friend_show']);
 			//let's get incoming pendings
 			$sql_array = array(
 				'SELECT'	=> 'zc.*, u.username, u.user_colour',
@@ -313,7 +310,7 @@ class zebra_listener implements EventSubscriberInterface
 			{
 				if ($result['foe'] == 1)
 				{
-					$zebra_state = 1;
+					$zebra_state = 2;
 				}
 				else
 				{
@@ -327,11 +324,11 @@ class zebra_listener implements EventSubscriberInterface
 			}
 			else
 			{
-				$zebra_state = 2;
+				$zebra_state = 1;
 			}
 		}
 
-		$show = (($optResult['profile_friend_show'] <= $zebra_state) ? true : false);
+		$show = (($optResult['profile_friend_show'] != 2) ? (($optResult['profile_friend_show'] <= $zebra_state) ? true : false) : (($optResult['profile_friend_show'] < $zebra_state) ? true : false));
 		if ($event['data']['user_id'] == $this->user->data['user_id'] || $this->auth->acl_get('a_user') || $show)
 		{
 			$sql = 'SELECT zebra_id FROM ' . ZEBRA_TABLE . ' WHERE user_id = ' . $this->db->sql_escape($event['data']['user_id']) . ' AND friend = 1';
@@ -369,11 +366,6 @@ class zebra_listener implements EventSubscriberInterface
 		$this->template->assign_var('FRIENDLIST', 'yes');
 	}
 
-	public function test($event)
-	{
-		var_dump($event['data']);
-		die();
-	}
 	protected function var_display($i)
 	{
 		echo '<pre>';
