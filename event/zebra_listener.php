@@ -108,8 +108,8 @@ class zebra_listener implements EventSubscriberInterface
 						$sql = 'INSERT INTO '. ZEBRA_TABLE .' (user_id, zebra_id, friend, foe, bff) VALUES (' .(int) $VAR['zebra_id'] . ', ' . (int) $VAR['user_id'] . ', 1, 0, 0)';
 						$this->db->sql_query($sql);
 
-						//Let's update zebra_change in custom
-						$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET zebra_changed = 1 WHERE (user_id =  ' . (int) $VAR['zebra_id'] . ' or user_id =  ' . (int) $VAR['user_id'] . ')';
+						//Let's update zebra_change
+						$sql = 'UPDATE ' . USERS_TABLE .' SET zebra_changed = 1 WHERE (user_id =  ' . (int) $VAR['zebra_id'] . ' or user_id =  ' . (int) $VAR['user_id'] . ')';
 						$this->db->sql_query($sql);
 
 						//let's clean the request table
@@ -176,8 +176,8 @@ class zebra_listener implements EventSubscriberInterface
 
 				$this->notifyhelper->clean($VAR, $this->user->data['user_id']);
 
-				//Let's update zebra_change in custom
-				$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET zebra_changed = 1 WHERE (user_id =  ' . (int) $this->user->data['user_id'] . ' or user_id =  ' . (int) $VAR . ')';
+				//Let's update zebra_change
+				$sql = 'UPDATE ' . USERS_TABLE .' SET zebra_changed = 1 WHERE (user_id =  ' . (int) $this->user->data['user_id'] . ' or user_id =  ' . (int) $VAR . ')';
 				$this->db->sql_query($sql);
 			}
 
@@ -199,14 +199,11 @@ class zebra_listener implements EventSubscriberInterface
 				{
 					$friend_list_acl = 0;
 				}
-				$sql = 'UPDATE ' . $this->table_prefix . 'users_custom SET profile_friend_show = ' . $friend_list_acl . ' WHERE user_id = '.$this->user->data['user_id'];
+				$sql = 'UPDATE ' . USERS_TABLE .' SET profile_friend_show = ' . $friend_list_acl . ' WHERE user_id = '.$this->user->data['user_id'];
 				$this->db->sql_query($sql);
 			}
 			$this->template->assign_var('IS_ZEBRA', '1');
-			$sql = 'SELECT profile_friend_show FROM ' . $this->table_prefix . 'users_custom WHERE user_id = '. $this->user->data['user_id'];
-			$result = $this->db->sql_fetchrow($this->db->sql_query($sql));
-			$this->template->assign_var('ZEBRA_ACL', $result['profile_friend_show']);
-			var_dump($result['profile_friend_show']);
+			$this->template->assign_var('ZEBRA_ACL', $this->user->data['profile_friend_show']);
 			//let's get incoming pendings
 			$sql_array = array(
 				'SELECT'	=> 'zc.*, u.username, u.user_colour',
@@ -294,7 +291,7 @@ class zebra_listener implements EventSubscriberInterface
 
 	public function prepare_friends($event)
 	{
-		$sql = 'SELECT profile_friend_show FROM ' . $this->table_prefix . 'users_custom WHERE user_id = '.$this->db->sql_escape($event['data']['user_id']);
+		$sql = 'SELECT profile_friend_show FROM ' . USERS_TABLE .' WHERE user_id = '.$this->db->sql_escape($event['data']['user_id']);
 		$result = $this->db->sql_query($sql);
 		$optResult = $this->db->sql_fetchrow($result);
 		$sql = 'SELECT * FROM ' . ZEBRA_TABLE . ' WHERE user_id = '.$this->db->sql_escape($event['data']['user_id']).' AND zebra_id = '.$this->user->data['user_id'];

@@ -36,19 +36,13 @@ class release_1_0_0 extends \phpbb\db\migration\migration
 					),
 					'PRIMARY_KEY'    => 'user_id, zebra_id',
 				),
-				$this->table_prefix . 'users_custom'		=> array(
-					'COLUMNS'	=> array(
-						'user_id'	=> array('UINT', 0),
-					),
-					'PRIMARY_KEY'    => 'user_id'
-				),
 			),
 			'add_columns'	=> array(
 				ZEBRA_TABLE 	=> array(
 					'bff'	=> array('UINT', 0),
 				),
-				$this->table_prefix . 'users_custom'        => array(
-					'profile_friend_show'    => array('UINT', 0),
+				USERS_TABLE        => array(
+					'profile_friend_show'    => array('UINT', 5),
 				)
 			),
 		);
@@ -64,7 +58,7 @@ class release_1_0_0 extends \phpbb\db\migration\migration
 				ZEBRA_TABLE	=> array(
 					'bff',
 				),
-				$this->table_prefix . 'users_custom'        => array(
+				USERS_TABLE        => array(
 					'profile_friend_show',
 				)
 			),
