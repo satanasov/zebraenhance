@@ -25,6 +25,8 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$this->add_user_group('NEWLY_REGISTERED', array('testuser1'));
 		$this->create_user('testuser2');
 		$this->add_user_group('NEWLY_REGISTERED', array('testuser2'));
+		$this->create_user('testuser3');
+		$this->add_user_group('NEWLY_REGISTERED', array('testuser2'));
 
 		//login as admin
 		$this->login();
@@ -202,6 +204,29 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
 		$this->assertContains('favorite_remove.png', $crawler->filter('#ze_ajaxify')->filter('a')->eq(0)->filter('img')->attr('src'));
 		$this->logout();
+		
+		$this->login();
+		//we create friends
+		$crawler = self::request('GET', "ucp.php?i=zebra&add=testuser1&sid={$this->sid}");
+		$form = $crawler->selectButton($this->lang('YES'))->form();
+		$crawler = self::submit($form);
+		$this->logout();
+		
+		$this->login('testuser1');
+		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
+		$this->assertContains($this->lang('UCP_ZEBRA_PENDING_IN'), $crawler->filter('html')->text());
+		$link = $crawler->filter('#ze_other_req')->filter('span')->filter('a')->eq(0)->link()->getUri();
+		$crawler = self::request('GET', substr($link, strpos($link, 'ucp.')));
+		$this->assertContains($this->lang('CONFIRM_OPERATION'), $crawler->filter('html')->text());
+		$form = $crawler->selectButton($this->lang('YES'))->form();
+		$crawler = self::submit($form);
+		
+		$this->login();
+		//we create friends
+		$crawler = self::request('GET', "ucp.php?i=zebra&add=testuser2&mode=foe&sid={$this->sid}");
+		$form = $crawler->selectButton($this->lang('YES'))->form();
+		$crawler = self::submit($form);
+		$this->logout();
 	}
 
 	public function list_visibility_data()
@@ -215,6 +240,36 @@ class zebraenhance_requests_test extends zebraenhance_base
 			'bff'	=> array(
 				4,
 				'testuser',
+				'testuser'
+			),
+			'bff_no'	=> array(
+				4,
+				'testuser1',
+				'You do not have access to see user'
+			),
+			'friend'	=> array(
+				3,
+				'testuser1',
+				'testuser1'
+			),
+			'friend_foe'	=> array(
+				3,
+				'testuser2',
+				'You do not have access to see user'
+			),
+			'friend_reg'	=> array(
+				3,
+				'testuser3',
+				'You do not have access to see user'
+			),
+			'not_foe'	=> array(
+				2,
+				'testuser2',
+				'You do not have access to see user'
+			),
+			'not_foe_true' => array(
+				2,
+				'testuser3',
 				'testuser'
 			),
 		);
