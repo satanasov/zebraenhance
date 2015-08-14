@@ -208,19 +208,24 @@ class zebraenhance_requests_test extends zebraenhance_base
 		);
 	}
 
-	public function test_friend_list_visibility()
+	/**
+	* Test test_friend_list_visibility
+	*
+	* @dataProvider list_visibility_data
+	*/
+	public function test_friend_list_visibility($state, $user, $expected)
 	{
 		$this->login();
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
-		$form['zebra_profile_acl'] = 5;
+		$form['zebra_profile_acl'] = $state;
 		$crawler = self::submit($form);
 		$this->logout();
 
-		$this->login('testuser1');
+		$this->login($user);
 		$this->add_lang_ext('anavaro/zebraenhance', 'zebra_enchance');
 		$crawler = self::request('GET', "memberlist.php?mode=viewprofile&u=2&sid={$this->sid}");
-		$this->assertContains('testuser', $crawler->filter('html')->filter('div#ze_container')->text());
+		$this->assertContains($expected, $crawler->filter('html')->filter('div#ze_container')->text());
 		$this->logout();
 	}
 }
