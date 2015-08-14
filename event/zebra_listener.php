@@ -201,6 +201,7 @@ class zebra_listener implements EventSubscriberInterface
 				}
 				$sql = 'UPDATE ' . USERS_TABLE .' SET profile_friend_show = ' . $friend_list_acl . ' WHERE user_id = '.$this->user->data['user_id'];
 				$this->db->sql_query($sql);
+				$this->user->data['profile_friend_show'] = $friend_list_acl;
 			}
 			$this->template->assign_var('IS_ZEBRA', '1');
 			$this->template->assign_var('ZEBRA_ACL', $this->user->data['profile_friend_show']);
