@@ -323,7 +323,6 @@ class zebra_listener implements EventSubscriberInterface
 				$zebra_state = 1;
 			}
 		}
-var_dump($zebra_state);
 		$show = (($optResult['profile_friend_show'] != 2) ? (($optResult['profile_friend_show'] <= $zebra_state) ? true : false) : (($optResult['profile_friend_show'] == 2 and $zebra_state > 0 and $zebra_state != 2) ? true : false));
 		if ($event['data']['user_id'] == $this->user->data['user_id'] || $this->auth->acl_get('a_user') || $show)
 		{
