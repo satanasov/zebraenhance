@@ -224,7 +224,7 @@ class zebraenhance_requests_test extends zebraenhance_base
 		
 		$this->login();
 		//we create friends
-		$crawler = self::request('GET', "ucp.php?i=zebra&add=testuser2&mode=foe&sid={$this->sid}");
+		$crawler = self::request('GET', "ucp.php?i=zebra&mode=foes&add=testuser2&sid={$this->sid}");
 		$form = $crawler->selectButton($this->lang('YES'))->form();
 		$crawler = self::submit($form);
 		$this->logout();
