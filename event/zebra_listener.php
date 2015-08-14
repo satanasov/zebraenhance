@@ -292,11 +292,7 @@ class zebra_listener implements EventSubscriberInterface
 
 	public function prepare_friends($event)
 	{
-		$sql = 'SELECT profile_friend_show FROM ' . USERS_TABLE .' WHERE user_id = '.$this->db->sql_escape($event['data']['user_id']);
-		$result = $this->db->sql_query($sql);
-		$optResult = $this->db->sql_fetchrow($result);
-		$sql = 'SELECT * FROM ' . ZEBRA_TABLE . ' WHERE user_id = '.$this->db->sql_escape($event['data']['user_id']).' AND zebra_id = '.$this->user->data['user_id'];
-		$result = $this->db->sql_fetchrow($this->db->sql_query($sql));
+		$optResult['profile_friend_show'] = $event['data']['profile_friend_show'];
 		$zebra_state = 0;
 		if ($this->auth->acl_get('a_') || $this->auth->acl_get('m_') || $this->user->data['user_id'] == $event['data']['user_id'])
 		{
@@ -304,6 +300,8 @@ class zebra_listener implements EventSubscriberInterface
 		}
 		else if ($this->user->data['user_id'] != ANONYMOUS)
 		{
+			$sql = 'SELECT * FROM ' . ZEBRA_TABLE . ' WHERE user_id = '.$this->db->sql_escape($event['data']['user_id']).' AND zebra_id = '.$this->user->data['user_id'];
+			$result = $this->db->sql_fetchrow($this->db->sql_query($sql));
 			if ($result)
 			{
 				if ($result['foe'] == 1)
@@ -325,8 +323,8 @@ class zebra_listener implements EventSubscriberInterface
 				$zebra_state = 1;
 			}
 		}
-
-		$show = (($optResult['profile_friend_show'] != 2) ? (($optResult['profile_friend_show'] <= $zebra_state) ? true : false) : (($optResult['profile_friend_show'] < $zebra_state) ? true : false));
+var_dump($zebra_state);
+		$show = (($optResult['profile_friend_show'] != 2) ? (($optResult['profile_friend_show'] <= $zebra_state) ? true : false) : (($optResult['profile_friend_show'] == 2 and $zebra_state > 0 and $zebra_state != 2) ? true : false));
 		if ($event['data']['user_id'] == $this->user->data['user_id'] || $this->auth->acl_get('a_user') || $show)
 		{
 			$sql = 'SELECT zebra_id FROM ' . ZEBRA_TABLE . ' WHERE user_id = ' . $this->db->sql_escape($event['data']['user_id']) . ' AND friend = 1';

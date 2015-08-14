@@ -220,6 +220,7 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$this->assertContains($this->lang('CONFIRM_OPERATION'), $crawler->filter('html')->text());
 		$form = $crawler->selectButton($this->lang('YES'))->form();
 		$crawler = self::submit($form);
+		$this->logout();
 		
 		$this->login();
 		//we create friends
