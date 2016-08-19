@@ -252,7 +252,7 @@ class zebra_listener implements EventSubscriberInterface
 					'CANCEL'	=> '<a href="./ucp.php?i=zebra&remove=1&usernames[]='.$row['zebra_id'].'" data-ajax="true" data-refresh="true"><img src="' . $this->image_dir . '/cancel.gif"/></a>',
 				));
 			}
-			if($iswaiting)
+			if ($iswaiting)
 			{
 				$this->template->assign_var('HAS_WAITING', 'yes');
 			}
@@ -312,10 +312,12 @@ class zebra_listener implements EventSubscriberInterface
 				}
 				else
 				{
-					if ($result['bff'] == '0') {
+					if ($result['bff'] == '0')
+					{
 						$zebra_state = 3;
 					}
-					else {
+					else
+					{
 						$zebra_state = 4;
 					}
 				}
@@ -339,7 +341,8 @@ class zebra_listener implements EventSubscriberInterface
 			{
 				$this->user_loader->load_users($user_id);
 				$selector = 0;
-				foreach ($user_id as $VAR) {
+				foreach ($user_id as $VAR)
+				{
 					$this->template->assign_block_vars('zebra_friendslist', array(
 						'USER_LINK'	=> $this->user_loader->get_username($VAR, 'profile'),
 						'USER_AVATAR'	=> $this->user_loader->get_avatar($VAR),
