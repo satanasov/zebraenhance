@@ -189,7 +189,8 @@ class zebra_listener implements EventSubscriberInterface
 	{
 		$ispending = $iswaiting = '';
 		$submit = $this->request->variable('submit', false);
-		$friend_list_acl = $this->request->variable('zebra_profile_acl', 0);
+		$default_fla = $this->user->data['profile_friend_show'];
+		$friend_list_acl = $this->request->variable('zebra_profile_acl', $default_fla);
 		if ($event['id'] == 'zebra' or $event['id'] == 'ucp_zebra' or $event['id'] == $this->config['zebra_module_id'])
 		{
 			// Are we submiting new form?
