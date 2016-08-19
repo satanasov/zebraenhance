@@ -3,7 +3,7 @@
 	"type": "phpbb-extension",
 	"description": "Enchance ZEBRA function adding confimation and special friends",
 	"homepage": "https://github.com/lucifer4o/zebraenhance",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"time": "2014-08-21",
 	"license": "GPL-2.0",
 	"authors": [
