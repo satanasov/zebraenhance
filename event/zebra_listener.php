@@ -89,7 +89,7 @@ class zebra_listener implements EventSubscriberInterface
 	{
 		if ($event['mode'] == 'friends')
 		{
-			foreach($event['sql_ary'] as $VAR)
+			foreach ($event['sql_ary'] as $VAR)
 			{
 				//let's test if we have sent request
 				$sql = 'SELECT * FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . (int) $VAR['user_id'] . ' AND zebra_id = ' . (int) $VAR['zebra_id'];
@@ -124,7 +124,8 @@ class zebra_listener implements EventSubscriberInterface
 						//lets see if user is hostile towerds us (if yes - silently drop request)
 						$sql = 'SELECT * FROM '. ZEBRA_TABLE .' WHERE user_id = ' . (int) $VAR['zebra_id'] . ' AND zebra_id = ' . (int) $VAR['user_id']. ' AND foe = 1';
 						$result = $this->db->sql_fetchrow($this->db->sql_query($sql));
-						if (!$result) {
+						if (!$result)
+						{
 							$sql = 'INSERT INTO ' . $this->table_prefix . 'zebra_confirm (user_id, zebra_id, friend, foe) VALUES (' .(int) $VAR['user_id'] . ', ' . (int) $VAR['zebra_id'] . ', 1, 0)';
 							$this->db->sql_query($sql);
 							$this->notifyhelper->notify('add', $VAR['zebra_id'], $VAR['user_id']);
@@ -136,7 +137,7 @@ class zebra_listener implements EventSubscriberInterface
 		}
 		if ($event['mode'] == 'foes')
 		{
-			foreach($event['sql_ary'] as $VAR)
+			foreach ($event['sql_ary'] as $VAR)
 			{
 				//if we add user as foe we have to remove pending requests.
 				$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . (int) $VAR['zebra_id']. ' AND zebra_id = ' . (int) $VAR['user_id'];
@@ -149,10 +150,10 @@ class zebra_listener implements EventSubscriberInterface
 
 	public function zebra_confirm_remove($event)
 	{
-		if($event['mode'] == 'friends')
+		if ($event['mode'] == 'friends')
 		{
 			//let's go for syncronieus remove
-			foreach($event['user_ids'] as $VAR)
+			foreach ($event['user_ids'] as $VAR)
 			{
 				$sql = 'DELETE FROM ' . ZEBRA_TABLE . '
 				WHERE user_id = ' . $this->user->data['user_id'] . '
@@ -218,7 +219,7 @@ class zebra_listener implements EventSubscriberInterface
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
 
-			while($row = $this->db->sql_fetchrow($result))
+			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$ispending = 1;
 				$this->template->assign_block_vars('pending_requests', array(
@@ -227,7 +228,7 @@ class zebra_listener implements EventSubscriberInterface
 					'CANCEL'	=> '<a href="./ucp.php?i=zebra&remove=1&usernames[]='.$row['user_id'].'" data-ajax="true" data-refresh="true""><img src="' . $this->image_dir . '/cancel.gif"/></a>',
 				));
 			}
-			if($ispending)
+			if ($ispending)
 			{
 				$this->template->assign_var('HAS_PENDING', 'yes');
 			}
@@ -243,7 +244,7 @@ class zebra_listener implements EventSubscriberInterface
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
 
-			while($row = $this->db->sql_fetchrow($result))
+			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$iswaiting = 1;
 				$this->template->assign_block_vars('pending_awaits', array(
@@ -268,7 +269,7 @@ class zebra_listener implements EventSubscriberInterface
 			);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
-			while($row = $this->db->sql_fetchrow($result))
+			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$this->template->assign_block_vars('prity_zebra', array(
 					'USERNAME'	=>	'<a class="username-coloured" style="color: '.$row['user_colour'].'" href="'.append_sid('memberlist.php?mode=viewprofile&u='.$row['zebra_id']).'">'.$row['username'].'</a>',
