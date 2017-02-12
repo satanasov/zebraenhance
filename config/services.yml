@@ -4,16 +4,13 @@ services:
         arguments:
             - '@user_loader'
             - '@auth'
-            - '@cache'
             - '@config'
             - '@dbal.conn'
             - '@request'
             - '@template'
             - '@user'
-            - '@controller.helper'
+            - '@language'
             - '@anavaro.zebraenhance.notifyhelper'
-            - '%core.root_path%'
-            - '%core.php_ext%'
             - '%core.table_prefix%'
         tags:
             - { name: event.listener }
