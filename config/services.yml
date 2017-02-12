@@ -29,15 +29,7 @@ services:
     anavaro.zebraenhance.notifyhelper:
         class: anavaro\zebraenhance\controller\notifyhelper
         arguments:
-            - '@config'
-            - '@dbal.conn'
-            - '@request'
-            - '@template'
-            - '@user'
             - '@service_container'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%core.table_prefix%'
     notification.type.zebraadd:
         class: anavaro\zebraenhance\notification\zebraadd
         scope: prototype # scope MUST be prototype for this to work!

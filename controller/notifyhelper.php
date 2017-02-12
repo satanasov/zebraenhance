@@ -17,37 +17,24 @@ use Symfony\Component\DependencyInjection\Container;
 class notifyhelper
 {
 	/**
-	* Constructor
-	*
-	* @param \phpbb\config\config $config                      Config object
-	* @param \phpbb\db\driver\driver $db                       Database object
-	* @param \phpbb\request\request $request                   Request object
-	* @param \phpbb\template\template $template                Template object
-	* @param \phpbb\user $user                                 User object
-	* @param Container $phpbb_container
-	* @param string $root_path                                 phpBB root path
-	* @param string $php_ext                                   phpEx
-	* @return \phpbb\boardrules\controller\admin_controller
-	* @access public
-	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, Container $phpbb_container, $root_path, $php_ext)
+	 * Constructor
+	 *
+	 * @param \Symfony\Component\DependencyInjection\Container $phpbb_container
+	 */
+	public function __construct(Container $phpbb_container)
 	{
-		$this->config = $config;
-		$this->db = $db;
-		$this->request = $request;
-		$this->template = $template;
-		$this->user = $user;
 		$this->phpbb_container = $phpbb_container;
-		$this->root_path = $root_path;
-		$this->php_ext = $php_ext;
 	}
 
 	/**
-	* Main notification function
-	* @param type			Type of notification (add/confirm)
-	* @param notify_user	User to notify
-	* @param action_user	User that trigered the action
-	*/
+	 * Main notification function
+	 *
+	 * @param                                       type            Type of notification (add/confirm)
+	 * @param \anavaro\zebraenhance\controller\User $notify_user
+	 * @param \anavaro\zebraenhance\controller\User $action_user
+	 * @internal param \anavaro\zebraenhance\controller\User $notify_user to notify
+	 * @internal param \anavaro\zebraenhance\controller\User $action_user that trigered the action
+	 */
 	public function notify($type, $notify_user, $action_user)
 	{
 		$notification_data = array(
