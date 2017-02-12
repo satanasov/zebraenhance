@@ -56,7 +56,7 @@ class ajaxify
 	public function base ($action, $userid)
 	{
 		//load language file
-		$this->lang->add_lang('anavaro/zebraenhance', array('zebra_enchance'));
+		$this->lang->add_lang(array('zebra_enchance'), 'anavaro/zebraenhance');
 		$confirm = $this->request->variable('confirm', '');
 		$u_action = $this->root_path . 'ucp.php?i=168';
 		switch ($action)

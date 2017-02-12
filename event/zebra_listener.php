@@ -95,7 +95,7 @@ class zebra_listener implements EventSubscriberInterface
 
 	public function load_language_on_setup($event)
 	{
-		$this->lang->add_lang('anavaro/zebraenhance', array('zebra_enchance'));
+		$this->lang->add_lang(array('zebra_enchance'), 'anavaro/zebraenhance');
 
 		if ($this->config['zebra_module_id'] == 'none')
 		{
@@ -179,21 +179,21 @@ class zebra_listener implements EventSubscriberInterface
 			{
 				$sql = 'DELETE FROM ' . ZEBRA_TABLE . '
 				WHERE user_id = ' . $this->user->data['user_id'] . '
-				AND zebra_id = '. $VAR;
+				AND zebra_id = '. (int) $VAR;
 				$this->db->sql_query($sql);
 
 				$sql = 'DELETE FROM ' . ZEBRA_TABLE . '
-				WHERE user_id = ' . $VAR . '
+				WHERE user_id = ' . (int) $VAR . '
 				AND zebra_id = '. $this->user->data['user_id'];
 				$this->db->sql_query($sql);
 
 				$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm
 				WHERE user_id = ' . $this->user->data['user_id'] . '
-				AND zebra_id = '. $VAR;
+				AND zebra_id = '. (int) $VAR;
 				$this->db->sql_query($sql);
 
 				$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm
-				WHERE user_id = ' . $VAR . '
+				WHERE user_id = ' . (int) $VAR . '
 				AND zebra_id = '. $this->user->data['user_id'];
 				$this->db->sql_query($sql);
 
@@ -223,7 +223,7 @@ class zebra_listener implements EventSubscriberInterface
 				{
 					$friend_list_acl = 0;
 				}
-				$sql = 'UPDATE ' . USERS_TABLE .' SET profile_friend_show = ' . $friend_list_acl . ' WHERE user_id = '.$this->user->data['user_id'];
+				$sql = 'UPDATE ' . USERS_TABLE .' SET profile_friend_show = ' . (int) $friend_list_acl . ' WHERE user_id = '.$this->user->data['user_id'];
 				$this->db->sql_query($sql);
 				$this->user->data['profile_friend_show'] = $friend_list_acl;
 			}
@@ -387,13 +387,5 @@ class zebra_listener implements EventSubscriberInterface
 			$this->template->assign_var('FRIENDLIST_ERROR_ACCESS', 'yes');
 		}
 		$this->template->assign_var('FRIENDLIST', 'yes');
-	}
-
-	protected function var_display($i)
-	{
-		echo '<pre>';
-		print_r($i);
-		echo '</pre>';
-		return true;
 	}
 }
