@@ -17,44 +17,6 @@ namespace anavaro\zebraenhance\notification;
 */
 class zebraconfirm extends \phpbb\notification\type\base
 {
-	/** @var \phpbb\controller\helper */
-	protected $helper;
-
-	/**
-	* Notification Type Boardrules Constructor
-	*
-	* @param \phpbb\user_loader $user_loader
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\cache\driver\driver_interface $cache
-	* @param \phpbb\user $user
-	* @param \phpbb\auth\auth $auth
-	* @param \phpbb\config\config $config
-	* @param \phpbb\controller\helper $helper
-	* @param string $phpbb_root_path
-	* @param string $php_ext
-	* @param string $notification_types_table
-	* @param string $notifications_table
-	* @param string $user_notifications_table
-	* @return \phpbb\notification\type\base
-	*/
-	public function __construct(\phpbb\user_loader $user_loader, \phpbb\db\driver\driver_interface $db, \phpbb\cache\driver\driver_interface $cache, $user, \phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\controller\helper $helper, $phpbb_root_path, $php_ext, $notification_types_table, $notifications_table, $user_notifications_table)
-	{
-		$this->user_loader = $user_loader;
-		$this->db = $db;
-		$this->cache = $cache;
-		$this->user = $user;
-		$this->auth = $auth;
-		$this->config = $config;
-		$this->helper = $helper;
-
-		$this->phpbb_root_path = $phpbb_root_path;
-		$this->php_ext = $php_ext;
-
-		$this->notification_types_table = $notification_types_table;
-		$this->notifications_table = $notifications_table;
-		$this->user_notifications_table = $user_notifications_table;
-	}
-
 	/**
 	* Get notification type name
 	*
@@ -75,31 +37,50 @@ class zebraconfirm extends \phpbb\notification\type\base
 		'lang'	=> 'NOTIFICATION_TYPE_ZEBRA_CONFIRM',
 	);
 
+
+	/** @var \phpbb\user_loader */
+	protected $user_loader;
+
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	public function set_config(\phpbb\config\config $config)
+	{
+		$this->config = $config;
+	}
+
+	public function set_user_loader(\phpbb\user_loader $user_loader)
+	{
+		$this->user_loader = $user_loader;
+	}
+
 	/**
-	* Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
-	*
-	* @return bool True/False whether or not this is available to the user
-	*/
+	 * Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
+	 *
+	 * @return bool True/False whether or not this is available to the user
+	 */
 	public function is_available()
 	{
 		return true;
 	}
 
 	/**
-	* Get the id of the rule
-	*
-	* @param array $data The data for the updated rules
-	*/
+	 * Get the id of the rule
+	 *
+	 * @param array $data The data for the updated rules
+	 * @return mixed
+	 */
 	public static function get_item_id($data)
 	{
 		return $data['requester_id'];
 	}
 
 	/**
-	* Get the id of the parent
-	*
-	* @param array $data The data for the updated rules
-	*/
+	 * Get the id of the parent
+	 *
+	 * @param array $data The data for the updated rules
+	 * @return mixed
+	 */
 	public static function get_item_parent_id($data)
 	{
 		// No parent
@@ -117,10 +98,10 @@ class zebraconfirm extends \phpbb\notification\type\base
 	{
 
 		$users = array();
-		$users[$data['user_id']] = array('');
+		$users[$data['user_id']] =  $this->notification_manager->get_default_methods();;
 
 		$this->user_loader->load_users(array_keys($users));
-		return $this->check_user_notification_options(array_keys($users), $options);
+		return $users;
 	}
 
 	/**
@@ -153,7 +134,7 @@ class zebraconfirm extends \phpbb\notification\type\base
 		$users = array($this->get_data('requester_id'));
 		$this->user_loader->load_users($users);
 		$username = $this->user_loader->get_username($this->get_data('requester_id'), 'no_profile');
-		return $this->user->lang('NOTIFICATION_ZEBRA_CONFIRM', $username);
+		return $this->language->lang('NOTIFICATION_ZEBRA_CONFIRM', $username);
 	}
 
 	/**
@@ -199,6 +180,6 @@ class zebraconfirm extends \phpbb\notification\type\base
 	{
 		$this->set_data('requester_id', $data['requester_id']);
 
-		return parent::create_insert_array($data, $pre_create_data);
+		parent::create_insert_array($data, $pre_create_data);
 	}
 }
