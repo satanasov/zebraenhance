@@ -20,16 +20,11 @@ services:
     anavaro.zebraenhance.ajaxyfy:
         class: anavaro\zebraenhance\controller\ajaxify
         arguments:
-            - '@auth'
-            - '@cache'
-            - '@config'
             - '@dbal.conn'
             - '@request'
-            - '@template'
             - '@user'
-            - '@controller.helper'
+            - '@language'
             - '%core.root_path%'
-            - '%core.php_ext%'
             - '%core.table_prefix%'
     anavaro.zebraenhance.notifyhelper:
         class: anavaro\zebraenhance\controller\notifyhelper
