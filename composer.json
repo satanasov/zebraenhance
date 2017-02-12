@@ -4,7 +4,7 @@
 	"description": "Enchance ZEBRA function adding confimation and special friends",
 	"homepage": "https://github.com/lucifer4o/zebraenhance",
 	"version": "1.0.3",
-	"time": "2014-08-21",
+	"time": "2017-02-12",
 	"license": "GPL-2.0",
 	"authors": [
 		{
@@ -15,17 +15,17 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3"
+		"php": ">=5.4"
 	},
 	"extra": {
-		"display-name": "phpBB 3.1 Friendlist Enhance",
+		"display-name": "phpBB 3.2 Friendlist Enhance",
 		"version-check": {
 			"host": "lab.anavaro.com",
 			"directory": "/phpbb-ext",
 			"filename": "zebraenhance.json"
 		},
 		"soft-require": {
-			"phpbb/phpbb": "3.1.*@dev"
+			"phpbb/phpbb": "3.2.*@dev"
 		}
 	}
 }

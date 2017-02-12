@@ -2,8 +2,6 @@ language: php
 
 matrix:
   include:
-    - php: 5.3
-      env: DB=mysqli # MyISAM
     - php: 5.4
       env: DB=mysqli
     - php: 5.4
@@ -18,6 +16,8 @@ matrix:
       env: DB=mysqli
     - php: 5.6
       env: DB=mysqli
+    - php: 7
+      env: DB=mysqli
     - php: hhvm
       env: DB=mysqli
   allow_failures:
@@ -29,7 +29,7 @@ env:
     - EXTNAME="anavaro/zebraenhance"  # CHANGE name of the extension HERE
     - SNIFF="1"            # Should we run code sniffer on your code?
     - IMAGE_ICC="1"        # Should we run icc profile sniffer on your images?
-    - PHPBB_BRANCH="3.1.x"
+    - PHPBB_BRANCH="3.2.x"
     - EPV="1"              # Should we run EPV (Extension Pre Validator) on your code?
 
 branches:
