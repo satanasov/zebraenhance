@@ -1,4 +1,4 @@
-![Build Status](https://travis-ci.org/lucifer4o/zebraenhance.svg?branch=master)
+![Build Status](https://travis-ci.org/satanasov/zebraenhance.svg?branch=master)
 
 Friend list enchance
 ============
