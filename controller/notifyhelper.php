@@ -30,16 +30,16 @@ class notifyhelper
 	 * Main notification function
 	 *
 	 * @param                                       type            Type of notification (add/confirm)
-	 * @param \anavaro\zebraenhance\controller\User $notify_user
-	 * @param \anavaro\zebraenhance\controller\User $action_user
+	 * @param $notify_user
+	 * @param $action_user
 	 * @internal param \anavaro\zebraenhance\controller\User $notify_user to notify
 	 * @internal param \anavaro\zebraenhance\controller\User $action_user that trigered the action
 	 */
 	public function notify($type, $notify_user, $action_user)
 	{
 		$notification_data = array(
-			'user_id'	=> (int) $notify_user,
-			'requester_id'	=> (int) $action_user,
+			'user_id'	=> array($notify_user => 'user_id'),
+			'requester_id'	=> (string) $action_user,
 		);
 
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
@@ -47,19 +47,19 @@ class notifyhelper
 		switch ($type)
 		{
 			case 'add':
-				$phpbb_notifications->add_notifications('notification.type.zebraadd', $notification_data);
+				$phpbb_notifications->add_notifications('anavaro.zebraenhance.notification.zebraadd', $notification_data);
 			break;
 			case 'confirm':
-				$phpbb_notifications->add_notifications('notification.type.zebraconfirm', $notification_data);
+				$phpbb_notifications->add_notifications('anavaro.zebraenhance.notification.zebraconfirm', $notification_data);
 			break;
 		}
 	}
 	public function clean($user1, $user2)
 	{
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
-		$phpbb_notifications->delete_notifications('notification.type.zebraadd', $user1, $user2);
-		$phpbb_notifications->delete_notifications('notification.type.zebraadd', $user2, $user1);
-		$phpbb_notifications->delete_notifications('notification.type.zebraconfirm', $user2, $user1);
-		$phpbb_notifications->delete_notifications('notification.type.zebraconfirm', $user1, $user2);
+		$phpbb_notifications->delete_notifications('anavaro.zebraenhance.notification.zebraadd', $user1, $user2);
+		$phpbb_notifications->delete_notifications('anavaro.zebraenhance.notification.zebraadd', $user2, $user1);
+		$phpbb_notifications->delete_notifications('anavaro.zebraenhance.notification.zebraconfirm', $user2, $user1);
+		$phpbb_notifications->delete_notifications('anavaro.zebraenhance.notification.zebraconfirm', $user1, $user2);
 	}
 }

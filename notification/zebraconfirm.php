@@ -24,7 +24,7 @@ class zebraconfirm extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'notification.type.zebraconfirm';
+		return 'anavaro.zebraenhance.notification.zebraconfirm';
 	}
 
 	/**
@@ -55,9 +55,7 @@ class zebraconfirm extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
-	 *
-	 * @return bool True/False whether or not this is available to the user
+	 * Is available
 	 */
 	public function is_available()
 	{
@@ -65,14 +63,19 @@ class zebraconfirm extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Get the id of the rule
+	 * Get the id of the
 	 *
-	 * @param array $data The data for the updated rules
-	 * @return mixed
+	 * @param array $pm The data from the private message
+	 * @return int
 	 */
-	public static function get_item_id($data)
+	static public function get_item_id($data)
 	{
-		return $data['requester_id'];
+		$uid = '';
+		foreach ($data['user_id'] as $id => $string)
+		{
+			$uid = $id;
+		}
+		return (int) $uid;
 	}
 
 	/**
@@ -84,7 +87,7 @@ class zebraconfirm extends \phpbb\notification\type\base
 	public static function get_item_parent_id($data)
 	{
 		// No parent
-		return $data['user_id'];
+		return 0;
 	}
 
 	/**
@@ -97,11 +100,9 @@ class zebraconfirm extends \phpbb\notification\type\base
 	public function find_users_for_notification($data, $options = array())
 	{
 
-		$users = array();
-		$users[$data['user_id']] =  $this->notification_manager->get_default_methods();;
+		$this->user_loader->load_users(array_keys($data['user_id']));
 
-		$this->user_loader->load_users(array_keys($users));
-		return $users;
+		return $this->check_user_notification_options(array_keys($data['user_id']), $options);
 	}
 
 	/**
@@ -111,7 +112,7 @@ class zebraconfirm extends \phpbb\notification\type\base
 	*/
 	public function users_to_query()
 	{
-		return array();
+		return array($this->get_data('requester_id'));
 	}
 
 	/**
@@ -119,9 +120,7 @@ class zebraconfirm extends \phpbb\notification\type\base
 	*/
 	public function get_avatar()
 	{
-		$users = array($this->get_data('requester_id'));
-		$this->user_loader->load_users($users);
-		return $this->user_loader->get_avatar($this->get_data('requester_id'));
+		return $this->user_loader->get_avatar($this->get_data('requester_id'), false, true);
 	}
 
 	/**
@@ -131,9 +130,8 @@ class zebraconfirm extends \phpbb\notification\type\base
 	*/
 	public function get_title()
 	{
-		$users = array($this->get_data('requester_id'));
-		$this->user_loader->load_users($users);
 		$username = $this->user_loader->get_username($this->get_data('requester_id'), 'no_profile');
+
 		return $this->language->lang('NOTIFICATION_ZEBRA_CONFIRM', $username);
 	}
 

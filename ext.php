@@ -36,8 +36,8 @@ class ext extends \phpbb\extension\base
 
 				// Enable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->enable_notifications('notification.type.zebraadd');
-				$phpbb_notifications->enable_notifications('notification.type.zebraconfirm');
+				$phpbb_notifications->enable_notifications('anavaro.zebraenhance.notification.zebraadd');
+				$phpbb_notifications->enable_notifications('anavaro.zebraenhance.notification.zebraconfirm');
 				return 'notifications';
 
 			break;
@@ -65,8 +65,8 @@ class ext extends \phpbb\extension\base
 
 				// Disable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->disable_notifications('notification.type.zebraadd');
-				$phpbb_notifications->disable_notifications('notification.type.zebraconfirm');
+				$phpbb_notifications->disable_notifications('anavaro.zebraenhance.notification.zebraadd');
+				$phpbb_notifications->disable_notifications('anavaro.zebraenhance.notification.zebraconfirm');
 				return 'notifications';
 
 			break;
@@ -101,8 +101,8 @@ class ext extends \phpbb\extension\base
 				{
 					// Purge board rules notifications
 					$phpbb_notifications = $this->container->get('notification_manager');
-					$phpbb_notifications->purge_notifications('notification.type.zebraadd');
-					$phpbb_notifications->purge_notifications('notification.type.zebraconfirm');
+					$phpbb_notifications->purge_notifications('anavaro.zebraenhance.notification.zebraadd');
+					$phpbb_notifications->purge_notifications('anavaro.zebraenhance.notification.zebraconfirm');
 				}
 				catch (\phpbb\notification\exception $e)
 				{

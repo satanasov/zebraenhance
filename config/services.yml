@@ -27,36 +27,22 @@ services:
         class: anavaro\zebraenhance\controller\notifyhelper
         arguments:
             - '@service_container'
-    notification.type.zebraadd:
+    anavaro.zebraenhance.notification.zebraadd:
         class: anavaro\zebraenhance\notification\zebraadd
-        scope: prototype # scope MUST be prototype for this to work!
-        arguments:
-            - '@dbal.conn'
-            - '@language'
-            - '@user'
-            - '@auth'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%tables.notifications%'
+        shared: false
+        parent: notification.type.base
         calls:
-            - [set_user_loader, [@user_loader]]
-            - [set_config, [@config]]
+            - [set_user_loader, ['@user_loader']]
+            - [set_config, ['@config']]
         tags:
             - { name: notification.type }
     
-    notification.type.zebraconfirm:
+    anavaro.zebraenhance.notification.zebraconfirm:
         class: anavaro\zebraenhance\notification\zebraconfirm
-        scope: prototype # scope MUST be prototype for this to work!
-        arguments:
-            - '@dbal.conn'
-            - '@language'
-            - '@user'
-            - '@auth'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%tables.notifications%'
+        shared: false
+        parent: notification.type.base
         calls:
-            - [set_user_loader, [@user_loader]]
-            - [set_config, [@config]]
+            - [set_user_loader, ['@user_loader']]
+            - [set_config, ['@config']]
         tags:
             - { name: notification.type }
