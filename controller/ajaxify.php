@@ -58,9 +58,9 @@ class ajaxify
 					//$this->var_display($userid);
 					//let me delete all requests between you and user id.
 
-					$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . $userid . ' AND zebra_id = ' . $this->user->data['user_id'];
+					$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . (int) $userid . ' AND zebra_id = ' . (int) $this->user->data['user_id'];
 					$this->db->sql_query($sql);
-					$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . $this->user->data['user_id'] . ' AND zebra_id = ' . $userid;
+					$sql = 'DELETE FROM ' . $this->table_prefix . 'zebra_confirm WHERE user_id = ' . (int) $this->user->data['user_id'] . ' AND zebra_id = ' . (int) $userid;
 					$this->db->sql_query($sql);
 					$message = '';
 					if ($this->request->is_ajax())
@@ -88,19 +88,19 @@ class ajaxify
 				}
 			break;
 			case 'togle_bff':
-				$sql='SELECT bff FROM ' . ZEBRA_TABLE . ' WHERE zebra_id = ' .$userid. ' AND user_id = ' .$this->user->data['user_id'];
+				$sql='SELECT bff FROM ' . ZEBRA_TABLE . ' WHERE zebra_id = ' . (int) $userid . ' AND user_id = ' . (int) $this->user->data['user_id'];
 				$result = $this->db->sql_fetchrow($this->db->sql_query($sql));
 				if ($result)
 				{
 					if ($result['bff'] == '0')
 					{
-						$sql = 'UPDATE ' . ZEBRA_TABLE . ' SET bff = 1 WHERE zebra_id = ' . $userid. ' AND user_id = ' .$this->user->data['user_id'];
+						$sql = 'UPDATE ' . ZEBRA_TABLE . ' SET bff = 1 WHERE zebra_id = ' . (int) $userid . ' AND user_id = ' . (int) $this->user->data['user_id'];
 						$this->db->sql_query($sql);
 						$exit = 'add';
 					}
 					if ($result['bff'] == '1')
 					{
-						$sql = 'UPDATE ' . ZEBRA_TABLE . ' SET bff = 0 WHERE zebra_id = ' .$userid. ' AND user_id = ' .$this->user->data['user_id'];
+						$sql = 'UPDATE ' . ZEBRA_TABLE . ' SET bff = 0 WHERE zebra_id = ' . (int) $userid . ' AND user_id = ' . (int) $this->user->data['user_id'];
 						$this->db->sql_query($sql);
 						$exit = 'rem';
 					}
