@@ -12,7 +12,7 @@ matrix:
       env: DB=postgres
     - php: 5.6
       env: DB=sqlite3
-    - php: 5.5
+    - php: 5.6
       env: DB=mysqli
     - php: 5.6
       env: DB=mysqli
@@ -21,10 +21,6 @@ matrix:
     - php: 7.1
       env: DB=mysqli
     - php: 7.2
-      env: DB=mysqli
-    - php: 7.3
-      env: DB=mysqli
-    - php: 7.4
       env: DB=mysqli
     - php: hhvm
       env: DB=mysqli
@@ -53,7 +49,7 @@ install:
   - cd ../../phpBB3
   - travis/prepare-extension.sh $EXTNAME $PHPBB_BRANCH
   - travis/setup-phpbb.sh $DB $TRAVIS_PHP_VERSION
-  - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.5' ] && [ '$DB' = 'mysqli' ]; then cd phpBB; composer require phpbb/epv:dev-master --dev --no-interaction; cd ../; fi"
+  - sh -c "if [ '$EPV' != '0' ] && [ '$TRAVIS_PHP_VERSION' = '5.6' ] && [ '$DB' = 'mysqli' ]; then cd phpBB; composer require phpbb/epv:dev-master --dev --no-interaction; cd ../; fi"
 
 
 before_script:
