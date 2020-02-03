@@ -47,7 +47,7 @@ class zebra_listener_test extends \phpbb_database_test_case
 	/**
 	 * Setup test environment
 	 */
-	public function setUp()
+	public function setUp() : void
 	{
 		global $phpbb_root_path, $phpEx;
 
@@ -57,7 +57,9 @@ class zebra_listener_test extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->auth = $this->getMock('\phpbb\auth\auth');
+		$this->auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->config = new \phpbb\config\config(array(
 			'zebra_module_id'	=> 'none',
@@ -65,15 +67,19 @@ class zebra_listener_test extends \phpbb_database_test_case
 
 		$this->db = $this->new_dbal();
 
-		$this->request = $this->getMock('\phpbb\request\request');
+		$this->request = $this->getMockBuilder('\phpbb\request\request')
+			->disableOriginalConstructor()
+			->getMock();;
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 
-		$this->user = $this->getMock('\phpbb\user', array(), array(
-			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
-			'\phpbb\datetime'
-		));
+		$this->user = $this->getMockBuilder('\phpbb\user')
+			->setConstructorArgs(array(
+				new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
+				'\phpbb\datetime'
+			))
+			->getMock();
 
 		$this->language = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()

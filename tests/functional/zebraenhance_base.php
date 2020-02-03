@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* Zebra enhance 
+* Zebra enhance
 *
 * @copyright (c) 2014 Stanislav Atanasov
 * @license GNU General Public License, version 2 (GPL-2.0)
@@ -20,7 +20,7 @@ class zebraenhance_base extends \phpbb_functional_test_case
 		return array('anavaro/zebraenhance');
 	}
 
-	public function setUp()
+	public function setUp() : void
 	{
 		parent::setUp();
 	}
