@@ -171,6 +171,33 @@ class zebra_listener_test extends \phpbb_database_test_case
 					)
 				),
 			),
+			'foe_requests_friendship'	=> array(
+				'friends', // Mode
+				array( // actions
+					   'user_id'	=> 5,
+					   'zebra_id'	=> 4
+				),
+				array(//asserts phpbb_zebra_confirm
+					  array(
+						  'user_id'	=> 2,
+						  'zebra_id'	=> 52,
+						  'friend'	=> 1,
+						  'foe'		=> 0
+					  ),
+					  array(
+						  'user_id'	=> 2,
+						  'zebra_id'	=> 3,
+						  'friend'	=> 1,
+						  'foe'		=> 0
+					  ),
+					  array(
+						  'user_id'	=> 1,
+						  'zebra_id'	=> 2,
+						  'friend'	=> 1,
+						  'foe'		=> 0
+					  )
+				),
+			),
 		);
 	}
 
@@ -192,6 +219,53 @@ class zebra_listener_test extends \phpbb_database_test_case
 		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 		$dispatcher->addListener('core.ucp_add_zebra', array($this->listener, 'zebra_confirm_add'));
 		$dispatcher->dispatch('core.ucp_add_zebra', $event);
+
+		$sql = 'SELECT * FROM phpbb_zebra_confirm';
+		$result = $this->db->sql_query($sql);
+		$cnt = 0;
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$this->assertEquals($asserts[$cnt], $row);
+			$cnt++;
+		}
+	}
+
+	/**
+	 * Test zebra_confirm_add confirm action
+	 */
+	public function test_zebra_confirm_add_accept()
+	{
+		// This is so hacky but it works.
+		$sql = 'ALTER TABLE phpbb_zebra ADD COLUMN bff UINT(0)';
+		$this->db->sql_query($sql);
+		$mode = 'friends';
+		$sql_ary = array(
+			array(
+				'user_id'	=> 52,
+				'zebra_id'	=> 2
+			)
+		);
+		$event_data = array('mode', 'sql_ary');
+		$event = new \phpbb\event\data(compact($event_data));
+		$this->set_listener();
+		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$dispatcher->addListener('core.ucp_add_zebra', array($this->listener, 'zebra_confirm_add'));
+		$dispatcher->dispatch('core.ucp_add_zebra', $event);
+
+		$asserts = array(
+			array(
+				'user_id'	=> 2,
+				'zebra_id'	=> 3,
+				'friend'	=> 1,
+				'foe'		=> 0
+			),
+			array(
+				'user_id'	=> 1,
+				'zebra_id'	=> 2,
+				'friend'	=> 1,
+				'foe'		=> 0
+			)
+		);
 
 		$sql = 'SELECT * FROM phpbb_zebra_confirm';
 		$result = $this->db->sql_query($sql);

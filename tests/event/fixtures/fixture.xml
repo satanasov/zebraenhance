@@ -33,6 +33,12 @@
         <column>zebra_id</column>
         <column>friend</column>
         <column>foe</column>
+		<row>
+			<value>4</value>
+			<value>5</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
     </table>
     <table name="phpbb_zebra_confirm">
         <column>user_id</column>
