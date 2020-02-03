@@ -236,7 +236,7 @@ class zebra_listener_test extends \phpbb_database_test_case
 	public function test_zebra_confirm_add_accept()
 	{
 		// This is so hacky but it works.
-		$sql = 'ALTER TABLE phpbb_zebra ADD COLUMN bff UINT(0)';
+		$sql = 'ALTER TABLE phpbb_zebra ADD COLUMN bff INT(0)';
 		$this->db->sql_query($sql);
 		$mode = 'friends';
 		$sql_ary = array(
