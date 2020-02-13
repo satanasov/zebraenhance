@@ -153,7 +153,7 @@ class zebraenhance_requests_test extends zebraenhance_base
 		$crawler = self::submit($form);
 
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
-		$this->assertCount(1,$crawler->filter('html')->text(), 'testuser');
+		$this->assertCount(1,$crawler->filter('testuser')->count());
 		$this->assertEquals(0, $crawler->filter('#ze_ajaxify')->count());
 
 		$this->logout();
