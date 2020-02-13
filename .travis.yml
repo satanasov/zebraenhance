@@ -51,7 +51,8 @@ install:
     - cd ../../phpBB3
     - travis/prepare-extension.sh $EXTNAME $PHPBB_BRANCH
     - travis/setup-phpbb.sh $DB $TRAVIS_PHP_VERSION $NOTESTS
-    - ../anavaro/$EXTNAME/travis/prepare-epv.sh $EPV $NOTESTS
+    - pwd
+    - anavaro/$EXTNAME/travis/prepare-epv.sh $EPV $NOTESTS
 
 before_script:
     - travis/setup-database.sh $DB $TRAVIS_PHP_VERSION $NOTESTS
