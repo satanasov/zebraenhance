@@ -163,6 +163,12 @@ class zebra_listener_test extends \phpbb_database_test_case
 						'friend'	=> 1,
 						'foe'		=> 0
 					),
+					array(
+						 'user_id'	=> 2,
+						'zebra_id'	=> 52,
+						'friend'	=> 1,
+						'foe'		=> 0
+					),
 				),
 			),
 			'foe_requests_friendship'	=> array(
@@ -172,24 +178,18 @@ class zebra_listener_test extends \phpbb_database_test_case
 					   'zebra_id'	=> 4
 				),
 				array(//asserts phpbb_zebra_confirm
-					  array(
-						  'user_id'	=> 2,
-						  'zebra_id'	=> 52,
-						  'friend'	=> 1,
-						  'foe'		=> 0
-					  ),
-					  array(
-						  'user_id'	=> 2,
-						  'zebra_id'	=> 3,
-						  'friend'	=> 1,
-						  'foe'		=> 0
-					  ),
-					  array(
-						  'user_id'	=> 1,
-						  'zebra_id'	=> 2,
-						  'friend'	=> 1,
-						  'foe'		=> 0
-					  )
+					array(
+						'user_id'	=> 2,
+						'zebra_id'	=> 3,
+						'friend'	=> 1,
+						'foe'		=> 0
+					),
+					array(
+						'user_id'	=> 2,
+						'zebra_id'	=> 52,
+						'friend'	=> 1,
+						'foe'		=> 0
+					),
 				),
 			),
 		);
@@ -214,7 +214,7 @@ class zebra_listener_test extends \phpbb_database_test_case
 		$dispatcher->addListener('core.ucp_add_zebra', array($this->listener, 'zebra_confirm_add'));
 		$dispatcher->dispatch('core.ucp_add_zebra', $event);
 
-		$sql = 'SELECT * FROM phpbb_zebra_confirm';
+		$sql = 'SELECT * FROM phpbb_zebra_confirm ORDER BY user_id ASC, zebra_id ASC';
 		$result = $this->db->sql_query($sql);
 		$cnt = 0;
 		while ($row = $this->db->sql_fetchrow($result))
@@ -222,5 +222,6 @@ class zebra_listener_test extends \phpbb_database_test_case
 			$this->assertEquals($asserts[$cnt], $row);
 			$cnt++;
 		}
+		$this->assertEquals(count($asserts), $cnt);
 	}
 }
