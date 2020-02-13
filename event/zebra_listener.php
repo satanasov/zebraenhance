@@ -22,8 +22,6 @@ class zebra_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-
-
 			'core.user_setup'		=> 'load_language_on_setup',
 			'core.ucp_add_zebra'	=>	'zebra_confirm_add',
 			'core.ucp_remove_zebra'	=>	'zebra_confirm_remove',
