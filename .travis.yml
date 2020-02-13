@@ -47,7 +47,7 @@ services:
 
 install:
     - travis/prepare-phpbb.sh $PHPBB_BRANCH
-    - sh -c "if [ '$EPV' != '0' -a '$NOTESTS' = '1' ]; then travis/prepare-epv.sh $PHPBB_BRANCH; fi"
+    - travis/prepare-epv.sh $EPV $NOTESTS
     - cd ../../phpBB3
     - travis/prepare-extension.sh $EXTNAME $PHPBB_BRANCH
     - travis/setup-phpbb.sh $DB $TRAVIS_PHP_VERSION $NOTESTS
