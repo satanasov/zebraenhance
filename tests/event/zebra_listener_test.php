@@ -152,17 +152,17 @@ class zebra_listener_test extends \phpbb_database_test_case
 				),
 				array(//asserts phpbb_zebra_confirm
 					array(
+						'user_id'	=> 1,
+						'zebra_id'	=> 2,
+						'friend'	=> 1,
+						'foe'		=> 0
+					),
+					array(
 						'user_id'	=> 2,
 						'zebra_id'	=> 3,
 						'friend'	=> 1,
 						'foe'		=> 0
 					),
-					array(
-						'user_id'	=> 1,
-						'zebra_id'	=> 2,
-						'friend'	=> 1,
-						'foe'		=> 0
-					)
 				),
 			),
 			'foe_requests_friendship'	=> array(
