@@ -160,7 +160,7 @@ class zebraenhance_requests_test extends zebraenhance_base
 
 		$this->login('testuser');
 		$crawler = self::request('GET', "ucp.php?i=ucp_zebra&mode=friends&sid={$this->sid}");
-		$this->assertNotContains('admin', $crawler->filter('html')->text());
+		$this->assertNotContains('admin', $crawler->filter('.cp-main')->text());
 		$this->assertEquals(0, $crawler->filter('#ze_ajaxify')->count());
 		$this->logout();
 	}
