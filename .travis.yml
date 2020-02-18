@@ -48,7 +48,7 @@ services:
     - mysql
 
 install:
-    - travis/prepare-phpbb.sh $PHPBB_BRANCH
+    - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
     - cd ../../phpBB3
     - sh -c "if [ '$COVER' != '0' ]; then sed -i '/phpenv/d' travis/setup-php-extensions.sh; fi"
     - travis/prepare-extension.sh $EXTNAME $PHPBB_BRANCH
