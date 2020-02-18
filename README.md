@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/satanasov/zebraenhance.svg?branch=master)](https://travis-ci.org/satanasov/zebraenhance)
+[![Build Status](https://travis-ci.org/satanasov/zebraenhance.svg?branch=master)](https://travis-ci.org/satanasov/zebraenhance) [![Code Coverage](https://scrutinizer-ci.com/g/satanasov/zebraenhance/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/satanasov/zebraenhance/?branch=master)  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satanasov/zebraenhance/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satanasov/zebraenhance/?branch=master)
 
 Friend list enchance
 ============
