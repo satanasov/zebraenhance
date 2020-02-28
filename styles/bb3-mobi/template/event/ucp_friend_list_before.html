@@ -1,0 +1,37 @@
+<!-- IF HAS_PENDING -->
+<div class="row bg3"><b>{L_UCP_ZEBRA_PENDING_IN}</b><br /><i>{L_UCP_ZEBRA_PENDING_IN_EXP}</i>
+	<p id="ze_other_req">
+		<!-- BEGIN pending_requests -->
+			<span style="display: block;">{pending_requests.CONFIRM} {pending_requests.CANCEL} {pending_requests.USERNAME}</span>
+		<!-- END pending_requests -->
+	</p>
+</div>
+<!-- ENDIF -->
+<!-- IF HAS_WAITING -->
+<div class="row bg3"><b>{L_UCP_ZEBRA_PENDING_OUT}</b><br /><i>{L_UCP_ZEBRA_PENDING_OUT_EXP}</i>
+	<p id="ze_slef_req">
+		<!-- BEGIN pending_awaits -->
+			<span style="display: block;">{pending_awaits.CANCEL} {pending_awaits.USERNAME}</span>
+		<!-- END pending_awaits -->
+	</p>
+</div>
+<!-- ENDIF -->
+<div class="row bg3"><b<!-- IF S_USERNAME_OPTIONS --> style="font-weight:bold;"<!-- ENDIF -->>{L_YOUR_FRIENDS}{L_COLON}</b><br /><i>{L_YOUR_FRIENDS_EXPLAIN}</i>
+	<p>
+		<!-- BEGIN prity_zebra -->
+			<div id="ze_ajaxify" style="display: block;"><div style="float: left;">{prity_zebra.BFF} {prity_zebra.USERNAME}</div><div style="float: right;"> {prity_zebra.CANCEL} </div> <div style="clear: both"></div></div>
+		<!-- END prity_zebra -->
+	</p>
+</div>
+<div class="row bg3"><b>{L_ZE_FRIENDLIST}</b><br/><i>{L_ZE_FRIENDLIST_EXPLAIN}</i>
+	<p>
+		<select id="zebra_profile_acl" name="zebra_profile_acl">
+			<option value="0" <!-- IF ZEBRA_ACL == 0 -->SELECTED<!-- ENDIF -->>{L_ALL}</option>
+			<option value="1" <!-- IF ZEBRA_ACL == 1 -->SELECTED<!-- ENDIF -->>{L_REGISTERED}</option>
+			<option value="2" <!-- IF ZEBRA_ACL == 2 -->SELECTED<!-- ENDIF -->>{L_NOT_ENEMY}</option>
+			<option value="3" <!-- IF ZEBRA_ACL == 3 -->SELECTED<!-- ENDIF -->>{L_FRIENDS}</option>
+			<option value="4" <!-- IF ZEBRA_ACL == 4 -->SELECTED<!-- ENDIF -->>{L_SPECIAL_FRIENDS}</option>
+			<option value="5" <!-- IF ZEBRA_ACL == 5 -->SELECTED<!-- ENDIF -->>{L_NONE}</option>
+		</select>
+	</p>
+</div>
